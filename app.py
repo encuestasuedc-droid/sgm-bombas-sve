@@ -10,11 +10,11 @@ def inicio():
     <p>✅ Aplicación funcionando</p>
 
     <p>
-        /nuevoRegistrar mantenimiento</a>
+        <a href="/nuevo">r mantenimiento</a>
     </p>
 
     <p>
-        /historialVer historial</a>
+        <a href="/historialstorial</a>
     </p>
     """
 
@@ -25,7 +25,7 @@ def nuevo():
 
     <p>Pantalla en construcción</p>
 
-    <Volver</a>
+    <a href</a>
     """
 
 @app.route("/historial")
