@@ -15,7 +15,7 @@ def inicio():
 
     <br><br>
 
-    /historial
+    <a href='/
         Ver historial
     </a>
     """
@@ -42,7 +42,7 @@ def nuevo():
         <h2>Registro guardado</h2>
 
         /
-        Volver
+            Volver
         </a>
         """
 
@@ -112,7 +112,13 @@ def historial():
         </p>
         """
 
-    html += "<br>/Volver</a>"
+    html += """
+    <br>
+
+    /
+        Volver
+    </a>
+    """
 
     return html
 
