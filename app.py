@@ -14,7 +14,7 @@ def inicio():
     </p>
 
     <p>
-        <a href="/historial">�rial</a>
+        /historial📋 Ver historial</a>
     </p>
     """
 
@@ -25,7 +25,7 @@ def nuevo():
 
     <p>Pantalla en construcción</p>
 
-    <Volver</a>
+    /Volver</a>
     """
 
 @app.route("/historial")
