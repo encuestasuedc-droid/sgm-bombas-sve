@@ -10,10 +10,11 @@ def inicio():
     <p>✅ Aplicación funcionando</p>
 
     <p>
-        <a href="/nuevo">🛠 Registrar mantenimientop>
+        /nuevo🛠 Registrar mantenimiento</a>
+    </p>
 
     <p>
-        /historial📋 Ver historial</a>
+        <a href="/historial">�rial</a>
     </p>
     """
 
@@ -24,14 +25,17 @@ def nuevo():
 
     <p>Pantalla en construcción</p>
 
-    <a href="/">Volver</a@app.route("/historial")
+    <Volver</a>
+    """
+
+@app.route("/historial")
 def historial():
     return """
     <h1>Historial</h1>
 
     <p>Historial en construcción</p>
 
-    <aolver</a>
+    /Volver</a>
     """
 
 if __name__ == "__main__":
