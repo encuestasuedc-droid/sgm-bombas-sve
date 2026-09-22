@@ -10,7 +10,7 @@ def inicio():
     <p>✅ Aplicación funcionando</p>
 
     <p>
-        /nuevo🛠 Registrar mantenimiento</a>
+        <a href="/nuevo">🛠 Registrar to</a>
     </p>
 
     <p>
