@@ -2,19 +2,33 @@
 <html>
 <head>
     <title>Historial</title>
-     }}">
-</head>
-<body>
-
-<header>
-    <h1>Historial de Mantenimientos</h1>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/os</h1>
 </header>
 
 <div class="container">
 
+    {% for r in registros %}
+
     <div class="card">
-        Próximamente mostraremos el historial con diseño profesional.
+
+        <p><b>Fecha:</b> {{ r.fecha }}</p>
+
+        <p><b>Bomba:</b> {{ r.bomba }}</p>
+
+        <p><b>Componente:</b> {{ r.componente }}</p>
+
+        <p><b>Responsable:</b> {{ r.responsable }}</p>
+
+        <p><b>Costo:</b> ${{ r.costo }}</p>
+
+        <p><b>Observación:</b> {{ r.observacion }}</p>
+
     </div>
+
+    {% endfor %}
+
+    <a        Volver
+    </a>
 
 </div>
 
