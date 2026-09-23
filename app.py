@@ -52,9 +52,21 @@ def nuevo():
 @app.route("/historial")
 def historial():
 
-    registros = Mantenimiento.query.order_by(
-        Mantenimiento.id.desc()
-    ).all()
+    bomba = request.args.get("bomba")
+
+    if bomba:
+
+        registros = Mantenimiento.query.filter_by(
+            bomba=bomba
+        ).order_by(
+            Mantenimiento.id.desc()
+        ).all()
+
+    else:
+
+        registros = Mantenimiento.query.order_by(
+            Mantenimiento.id.desc()
+        ).all()
 
     return render_template(
         "historial.html",
