@@ -2,13 +2,14 @@
 <html>
 <head>
     <title>SGM Bombas SVE</title>
-    {{ url_for('static', filename='css/style.css') }}
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
 <header>
-    <h1>SGM Bombas SVE v1.0</h1>
-    <p>Sistema de Gestión de Mantenimiento de Bombas</p>
+    <h1>SGM Bombas SVE v1.nimiento de Bombas</p>
 </header>
 
 <div class="container">
@@ -17,12 +18,23 @@
 
         <h2>Menú Principal</h2>
 
-        /nuevo
-            🛠 Registrar mantenimiento
-        </a>
+        <p>
+            /nuevo
+                🛠 Registrar mantenimiento
+            </a>
+        </p>
 
-        <a href="/historial    📋 Ver historial
-        </a>
+        <p>
+            /historial
+                📋 Ver historial
+            </a>
+        </p>
+
+        <p>
+            /dashboard
+                📊 Dashboard
+            </a>
+        </p>
 
     </div>
 
