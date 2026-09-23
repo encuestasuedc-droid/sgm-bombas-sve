@@ -75,3 +75,24 @@ button:hover{
 .subtitulo{
     opacity:0.9;
 }
+.btn{
+    display:block;
+    text-decoration:none;
+    background:#6B123C;
+    color:white;
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+    text-align:center;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.btn:hover{
+    background:#4c0d29;
+}
+
+header img{
+    display:block;
+    margin:auto;
+}
