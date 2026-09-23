@@ -51,10 +51,10 @@ def historial():
         Mantenimiento.id.desc()
     ).all()
 
-    html = """
-    <h1>Historial de Mantenimientos</h1>
-    <hr>
-    """
+    return render_template(
+        "historial.html",
+        registros=registros
+    )
 
     for r in registros:
 
