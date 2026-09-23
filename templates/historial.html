@@ -2,31 +2,30 @@
 <html>
 <head>
     <title>Historial de Mantenimientos</title>
-
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+          href="{.css') }}
 </head>
 <body>
 
 <header>
-    <h1>📋 Historial de M"container">
+    <h1>📋 Historial de Mantenimientos</h1>
+</header>
+
+<div class="container">
 
     <div class="card">
-
         <form method="GET">
 
-            <label><b>Filtrar por bomba:</b></label>
+            <label><b>Filtrar por bomba</b></label>
 
             <select name="bomba">
 
                 <option value="">Todas</option>
 
                 {% for i in range(1,24) %}
-
                 <option value="C{{i}}">
                     C{{i}}
                 </option>
-
                 {% endfor %}
 
             </select>
@@ -36,7 +35,6 @@
             </button>
 
         </form>
-
     </div>
 
     {% if registros %}
@@ -58,4 +56,53 @@
             </p>
 
             <p>
-                <strong>Responsable:</strong
+                <strong>Responsable:</strong>
+                {{ r.responsable }}
+            </p>
+
+            <p>
+                <strong>Costo:</strong>
+                ${{ r.costo }}
+            </p>
+
+            <p>
+                <strong>Observación:</strong>
+                {{ r.observacion }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="card">
+
+            <h3>No hay mantenimientos cargados</h3>
+
+            <p>
+                Aún no existen registros.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+    <div class="card">
+
+        /
+            🏠 Volver al inicio
+        </a>
+
+        <br><br>
+
+        /nuevo
+            🛠 Nuevo mantenimiento
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>
