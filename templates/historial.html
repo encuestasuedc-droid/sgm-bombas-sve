@@ -4,18 +4,13 @@
     <title>Historial de Mantenimientos</title>
 
     <link rel="stylesheet"
-          href="{{ url_for('static', filename
+          href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
 <body>
 
 <header>
-    <h1>📋 Historial de Mantenimientos</h1>
-</header>
-
-<div class="container">
-
-    <div class="card">
+    <h1ss="card">
 
         <form method="GET">
 
@@ -54,28 +49,23 @@
             <hr>
 
             <p>
-                📅 <b>Fecha:</b>
-                {{ r.fecha }}
+                📅 <b>Fecha:</b> {{ r.fecha }}
             </p>
 
             <p>
-                ⚙️ <b>Componente:</b>
-                {{ r.componente }}
+                ⚙️ <b>Componente:</b> {{ r.componente }}
             </p>
 
             <p>
-                👤 <b>Responsable:</b>
-                {{ r.responsable }}
+                👤 <b>Responsable:</b> {{ r.responsable }}
             </p>
 
             <p>
-                💰 <b>Costo:</b>
-                ${{ "%.0f"|format(r.costo) }}
+                💰 <b>Costo:</b> ${{ "%.0f"|format(r.costo) }}
             </p>
 
             <p>
-                📝 <b>Observación:</b>
-                {{ r.observacion }}
+                📝 <b>Observación:</b> {{ r.observacion }}
             </p>
 
         </div>
@@ -88,9 +78,7 @@
 
             <h2>No hay mantenimientos cargados</h2>
 
-            <p>
-                Aún no existen registros.
-            </p>
+            <p>Aún no existen registros.</p>
 
         </div>
 
