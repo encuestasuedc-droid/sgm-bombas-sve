@@ -2,10 +2,15 @@
 <html>
 <head>
     <title>Registrar mantenimiento</title>
+     }}">
 </head>
 <body>
 
-<h1>Registrar mantenimiento</h1>
+<header>
+    <h1>Registrar Mantenimiento</h1>
+</header>
+
+<div class="container">
 
 <form method="POST">
 
@@ -14,29 +19,9 @@
 
     <p>Bomba</p>
     <select name="bomba">
-        <option>C1</option>
-        <option>C2</option>
-        <option>C3</option>
-        <option>C4</option>
-        <option>C5</option>
-        <option>C6</option>
-        <option>C7</option>
-        <option>C8</option>
-        <option>C9</option>
-        <option>C10</option>
-        <option>C11</option>
-        <option>C12</option>
-        <option>C13</option>
-        <option>C14</option>
-        <option>C15</option>
-        <option>C16</option>
-        <option>C17</option>
-        <option>C18</option>
-        <option>C19</option>
-        <option>C20</option>
-        <option>C21</option>
-        <option>C22</option>
-        <option>C23</option>
+        {% for i in range(1,24) %}
+        <option>C{{i}}</option>
+        {% endfor %}
     </select>
 
     <p>Componente roto</p>
@@ -68,6 +53,8 @@
     </button>
 
 </form>
+
+</div>
 
 </body>
 </html>
