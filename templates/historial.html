@@ -46,7 +46,19 @@
 
         <div class="card">
 
-            <h2>🔧 Bomba {{ r.bomba }}</h2>
+           <h2>🔧 Bomba {{ r.bomba }}</h2>
+
+<hr>
+
+<p>📅 Fecha: {{ r.fecha }}</p>
+
+<p>⚙️ Componente: {{ r.componente }}</p>
+
+<p>👤 Responsable: {{ r.responsable }}</p>
+
+<p>💰 Costo: ${{ "%.0f"|format(r.costo) }}</p>
+
+<p>📝 Observación: {{ r.observacion }}</p>
 
             <p>
                 📅 <b>Fecha:</b>
