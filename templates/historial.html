@@ -3,14 +3,16 @@
 <head>
     <title>Historial de Mantenimientos</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    {{ url_for('static', filename='css/style.css') }}
 
 </head>
 <body>
 
 <header>
-    <h1>📋 Historialass="container">
+    <h1>📋 Historial de Mantenimientos</h1>
+</header>
+
+<div class="container">
 
     <div class="card">
 
@@ -46,19 +48,9 @@
 
         <div class="card">
 
-           <h2>🔧 Bomba {{ r.bomba }}</h2>
+            <h2>🔧 Bomba {{ r.bomba }}</h2>
 
-<hr>
-
-<p>📅 Fecha: {{ r.fecha }}</p>
-
-<p>⚙️ Componente: {{ r.componente }}</p>
-
-<p>👤 Responsable: {{ r.responsable }}</p>
-
-<p>💰 Costo: ${{ "%.0f"|format(r.costo) }}</p>
-
-<p>📝 Observación: {{ r.observacion }}</p>
+            <hr>
 
             <p>
                 📅 <b>Fecha:</b>
@@ -109,7 +101,7 @@
             🏠 Volver al inicio
         </a>
 
-        <br>
+        <br><br>
 
         /nuevo
             🛠 Nuevo mantenimiento
