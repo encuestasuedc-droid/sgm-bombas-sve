@@ -5,11 +5,11 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
+<container">
 
-<header>
-    <h1>Dashboard<h2>Total Reparaciones</h2>
+    <div class="card">
+
+        <h2>Total Reparaciones</h2>
 
         <h1>{{ total }}</h1>
 
@@ -20,6 +20,14 @@
         <h2>Costo Total</h2>
 
         <h1>${{ costo_total }}</h1>
+
+    </div>
+
+    <div class="card">
+
+        <a class="btn" href="/">
+l Inicio
+        </a>
 
     </div>
 
