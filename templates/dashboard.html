@@ -2,20 +2,32 @@
 <html>
 <head>
     <title>Dashboard</title>
-</head>
-<body>
+    <link rel="stylesheet"
+          href="{{ url_for('static'<body>
 
-<h1>Dashboard SGM Bombas</h1>
+<header>
+    <h1>📊 Dashboard SGM Bombas</h1>
+</header>
 
-<h2>Total Reparaciones</h2>
-<p>{{ total }}</p>
+<div class="container">
 
-<h2>Costo Total</h2>
-<p>${{ costo_total }}</p>
+    <div class="card">
+        <h2>Total Reparaciones</h2>
+        <h1>{{ total }}</h1>
+    </div>
 
-/
-    Volver
-</a>
+    <div class="card">
+        <h2>Costo Total</h2>
+        <h1>${{ costo_total }}</h1>
+    </div>
+
+    <div class="card">
+        /
+            Inicio
+        </a>
+    </div>
+
+</div>
 
 </body>
 </html>
