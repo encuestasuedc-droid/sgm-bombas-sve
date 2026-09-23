@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Nuevo mantenimiento</title>
+    <title>Registrar mantenimiento</title>
 </head>
 <body>
 
 <h1>Registrar mantenimiento</h1>
 
-<form>
+<form method="POST">
 
     <p>Fecha</p>
-    <input type="date">
+    <input type="date" name="fecha" required>
 
     <p>Bomba</p>
-    <select>
+    <select name="bomba">
         <option>C1</option>
         <option>C2</option>
         <option>C3</option>
@@ -40,7 +40,7 @@
     </select>
 
     <p>Componente roto</p>
-    <select>
+    <select name="componente">
         <option>Comando eléctrico</option>
         <option>Cable y enchufe</option>
         <option>Motor</option>
@@ -53,31 +53,21 @@
     </select>
 
     <p>Responsable</p>
-    <input type="text">
-
-    <p>Horas</p>
-    <input type="number">
+    <input type="text" name="responsable">
 
     <p>Costo</p>
-    <input type="number">
+    <input type="number" name="costo">
 
     <p>Observaciones</p>
-    <textarea rows="5" cols="50"></textarea>
+    <textarea name="observacion"></textarea>
 
     <br><br>
 
-    <button>
+    <button type="submit">
         Guardar mantenimiento
     </button>
 
 </form>
 
-<br>
-
-/
-Volver al inicio
-</a>
-
 </body>
 </html>
-``
