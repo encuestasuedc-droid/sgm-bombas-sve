@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>SGM Bombas SVE</title>
-    <static/css/style.css
+    {{ url_for('static', filename='css/style.css') }}
 </head>
 <body>
 
@@ -14,15 +14,20 @@
 <div class="container">
 
     <div class="card">
+
         <h2>Menú Principal</h2>
 
-        <auevo
-            🛠 Registrar mantenimiento
-        </a>
+        <p>
+            /nuevo
+                🛠 Registrar mantenimiento
+            </a>
+        </p>
 
-        /historial
-            📋 Ver historial
-        </a>
+        <p>
+            /historial
+                📋 Ver historial
+            </a>
+        </p>
 
     </div>
 
