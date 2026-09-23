@@ -2,57 +2,75 @@
 <html>
 <head>
     <title>Registrar mantenimiento</title>
-     }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
 
 <header>
-    <h1>Registrar Mantenimiento</h1>
-</header>
+    <h1>
 
 <div class="container">
 
-<form method="POST">
+    <div class="card">
 
-    <p>Fecha</p>
-    <input type="date" name="fecha" required>
+        <form method="POST">
 
-    <p>Bomba</p>
-    <select name="bomba">
-        {% for i in range(1,24) %}
-        <option>C{{i}}</option>
-        {% endfor %}
-    </select>
+            <p>Fecha</p>
+            <input type="date" name="fecha" required>
 
-    <p>Componente roto</p>
-    <select name="componente">
-        <option>Comando eléctrico</option>
-        <option>Cable y enchufe</option>
-        <option>Motor</option>
-        <option>Turbina</option>
-        <option>Cabezal</option>
-        <option>Rulemán</option>
-        <option>Estopada</option>
-        <option>Pintado</option>
-        <option>Ruedas</option>
-    </select>
+            <p>Bomba</p>
+            <select name="bomba">
 
-    <p>Responsable</p>
-    <input type="text" name="responsable">
+                {% for i in range(1,24) %}
+                <option>C{{i}}</option>
+                {% endfor %}
 
-    <p>Costo</p>
-    <input type="number" name="costo">
+            </select>
 
-    <p>Observaciones</p>
-    <textarea name="observacion"></textarea>
+            <p>Componente roto</p>
+            <select name="componente">
 
-    <br><br>
+                <option>Comando eléctrico</option>
+                <option>Cable y enchufe</option>
+                <option>Motor</option>
+                <option>Turbina</option>
+                <option>Cabezal</option>
+                <option>Rulemán</option>
+                <option>Estopada</option>
+                <option>Pintado</option>
+                <option>Ruedas</option>
 
-    <button type="submit">
-        Guardar mantenimiento
-    </button>
+            </select>
 
-</form>
+            <p>Responsable</p>
+            <input type="text" name="responsable">
+
+            <p>Costo</p>
+            <input type="number" name="costo">
+
+            <p>Observaciones</p>
+            <textarea name="observacion"></textarea>
+
+            <br><br>
+
+            <button type="submit">
+                Guardar mantenimiento
+            </button>
+
+        </form>
+
+    </div>
+
+    <div class="card">
+
+        /
+            🏠 Volver al inicio
+        </a>
+
+    </div>
 
 </div>
 
