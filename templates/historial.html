@@ -2,19 +2,18 @@
 <html>
 <head>
     <title>Historial de Mantenimientos</title>
-    
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
-        </head>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
 <body>
 
 <header>
-    <h1>📋 Historial de Mantenimientos</h1>
-</header>
-
-<div class="container">
+    <h1>📋 Historialass="container">
 
     <div class="card">
+
         <form method="GET">
 
             <label><b>Filtrar por bomba</b></label>
@@ -31,11 +30,14 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
             </select>
 
+            <br><br>
+
             <button type="submit">
                 Filtrar
             </button>
 
         </form>
+
     </div>
 
     {% if registros %}
@@ -44,30 +46,30 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
         <div class="card">
 
-            <h3>🔧 Bomba {{ r.bomba }}</h3>
+            <h2>🔧 Bomba {{ r.bomba }}</h2>
 
             <p>
-                <strong>Fecha:</strong>
+                📅 <b>Fecha:</b>
                 {{ r.fecha }}
             </p>
 
             <p>
-                <strong>Componente:</strong>
+                ⚙️ <b>Componente:</b>
                 {{ r.componente }}
             </p>
 
             <p>
-                <strong>Responsable:</strong>
+                👤 <b>Responsable:</b>
                 {{ r.responsable }}
             </p>
 
             <p>
-                <strong>Costo:</strong>
-                ${{ r.costo }}
+                💰 <b>Costo:</b>
+                ${{ "%.0f"|format(r.costo) }}
             </p>
 
             <p>
-                <strong>Observación:</strong>
+                📝 <b>Observación:</b>
                 {{ r.observacion }}
             </p>
 
@@ -79,7 +81,7 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
         <div class="card">
 
-            <h3>No hay mantenimientos cargados</h3>
+            <h2>No hay mantenimientos cargados</h2>
 
             <p>
                 Aún no existen registros.
@@ -95,7 +97,7 @@ href="{{ url_for('static', filename='css/style.css') }}">
             🏠 Volver al inicio
         </a>
 
-        <br><br>
+        <br>
 
         /nuevo
             🛠 Nuevo mantenimiento
