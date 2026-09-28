@@ -7,10 +7,15 @@
           href="{{ url_for('static', filename='css/style.css') }}">
 
 </head>
+
 <body>
 
 <header>
-    <h1ss="card">
+    <h1ader>
+
+<div class="container">
+
+    <div class="card">
 
         <form method="GET">
 
@@ -46,27 +51,15 @@
 
             <h2>🔧 Bomba {{ r.bomba }}</h2>
 
-            <hr>
+            <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
 
-            <p>
-                📅 <b>Fecha:</b> {{ r.fecha }}
-            </p>
+            <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
 
-            <p>
-                ⚙️ <b>Componente:</b> {{ r.componente }}
-            </p>
+            <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
 
-            <p>
-                👤 <b>Responsable:</b> {{ r.responsable }}
-            </p>
+            <p><strong>💰 Costo:</strong> ${{ "%.0f"|format(r.costo) }}</p>
 
-            <p>
-                💰 <b>Costo:</b> ${{ "%.0f"|format(r.costo) }}
-            </p>
-
-            <p>
-                📝 <b>Observación:</b> {{ r.observacion }}
-            </p>
+            <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
 
         </div>
 
@@ -76,7 +69,7 @@
 
         <div class="card">
 
-            <h2>No hay mantenimientos cargados</h2>
+            <h3>No hay mantenimientos cargados</h3>
 
             <p>Aún no existen registros.</p>
 
@@ -90,7 +83,7 @@
             🏠 Volver al inicio
         </a>
 
-        <br><br>
+        <br>
 
         /nuevo
             🛠 Nuevo mantenimiento
