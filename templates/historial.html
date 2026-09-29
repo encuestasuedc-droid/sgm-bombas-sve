@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Mantenimientos</title>
-    <!-- CORREGIDO: Se agregó la etiqueta <link> correcta para el CSS -->
+    <!-- CORREGIDO: Se agregó la etiqueta <link> para el CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -13,50 +13,53 @@
     </header>
     
     <div class="container">
-        <!-- Navegación superior -->
+        <!-- Botones de navegación -->
         <div class="card de-navegacion">
-            <!-- CORREGIDO: Se estructuraron bien las etiquetas <a> y sus rutas -->
-            <a href="{{ url_for('inicio') }}" class="btn"> 🏠 Inicio </a>
-            <a href="{{ url_for('nuevo_mantenimiento') }}" class="btn"> 🛠 Nuevo mantenimiento </a>
+            <!-- CORREGIDO: Se restauraron las etiquetas <a> y las rutas de Flask -->
+            <a href="{{ url_for('inicio') }}" class="btn">🏠 Inicio</a>
+            <a href="{{ url_for('nuevo_mantenimiento') }}" class="btn">🛠 Nuevo mantenimiento</a>
         </div>
 
-        <!-- Filtro de bombas -->
+        <!-- Filtro por bomba -->
         <div class="card">
-            <!-- CORREGIDO: Se agregó la etiqueta <form> de apertura y su método -->
+            <!-- CORREGIDO: Se restauró la etiqueta <form> de apertura -->
             <form method="GET" action="{{ url_for('historial_mantenimientos') }}">
-                <label for="bomba"> <b>Filtrar por bomba</b> </label>
+                <label for="bomba">
+                    <strong>Filtrar por bomba</strong>
+                </label>
                 <select id="bomba" name="bomba">
-                    <option value=""> Todas </option>
+                    <option value="">Todas</option>
                     {% for i in range(1, 24) %}
-                    <!-- CORREGIDO: Optimización de la lógica para marcar la opción seleccionada -->
-                    <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i %} selected {% endif %}>
+                    <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i|string %} selected {% endif %}>
                         C{{ i }}
                     </option>
                     {% endfor %}
                 </select>
-                <button type="submit"> Filtrar </button>
+                <button type="submit">Filtrar</button>
             </form>
         </div>
 
-        <!-- Contador de registros -->
+        <!-- Cantidad de registros -->
         <div class="card">
-            <h3> Cantidad de registros: {{ registros|length }} </h3>
+            <h3>Cantidad de registros: {{ registros|length }}</h3>
         </div>
 
         <!-- Listado de mantenimientos -->
-        <!-- CORREGIDO: Se estructuró el bucle y se cerraron todas las etiquetas adecuadamente -->
         {% if registros %}
             {% for r in registros %}
             <div class="card">
-                <h2> 🔧 Bomba {{ r.bomba }} </h2>
-                <p> <strong>📅 Fecha:</strong> {{ r.fecha }} </p>
-                <p> <strong>⚙️ Componente:</strong> {{ r.componente }} </p>
-                <p> <strong>👤 Responsable:</strong> {{ r.responsable }} </p>
+                <h2>🔧 Bomba {{ r.bomba }}</h2>
+                <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
+                <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
+                <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
+                <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
+                <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
             </div>
             {% endfor %}
         {% else %}
             <div class="card">
-                <p>⚠️ No se encontraron registros de mantenimiento.</p>
+                <h3>No hay mantenimientos registrados</h3>
+                <p>Todavía no existen registros para la bomba seleccionada.</p>
             </div>
         {% endif %}
     </div>
