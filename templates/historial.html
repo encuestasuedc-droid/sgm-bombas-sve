@@ -1,54 +1,83 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Historial de Mantenimientos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <header>
-        <h1>Historial de Mantenimientos</h1>
-    </header>
 
-    <div class="container">
-        <!-- Filtro de Bombas -->
-        <div class="card">
-            <form method="GET">
-                <label><b>Filtrar por bomba</b></label>
-                <select name="bomba">
-                    <option value="">Todas</option>
-                    {% for i in range(1, 24) %}
-                        <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i %}selected{% endif %}>
-                            C{{ i }}
-                        </option>
-                    {% endfor %}
-                </select>
-                <button type="submit">Filtrar</button>
-            </form>
-        </div>
+<header>
+    <h1>der>
 
-        <!-- Contador de Registros -->
-        <div class="card">
-            <h3>Cantidad de registros: {{ registros|length }}</h3>
-        </div>
+<div class="container">
 
-        <!-- Listado de Mantenimientos -->
-        {% for r in registros %}
-            <div class="card">
-                <h2>🔧 Bomba {{ r.bomba }}</h2>
-                <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
-                <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
-                <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
-                <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
-                <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
-            </div>
-        {% endfor %}
+    <div class="card">
 
-        <!-- Botones de Navegación -->
-        <div class="card de-navegacion">
-            <a href="{{ url_for('inicio') }}" class="btn">🏠 Volver al inicio</a>
-            <a href="{{ url_for('nuevo_mantenimiento') }}" class="btn">🛠️ Nuevo mantenimiento</a>
-        </div>
+        <form method="GET">
+
+            <label><b>Filtrar por bomba</b></label>
+
+            <select name="bomba">
+
+                <option value="">Todas</option>
+
+                {% for i in range(1,24) %}
+                <option value="C{{i}}">
+                    C{{i}}
+                </option>
+                {% endfor %}
+
+            </select>
+
+            <button type="submit">
+                Filtrar
+            </button>
+
+        </form>
+
     </div>
+
+    <div class="card">
+
+        <h3>Cantidad de registros: {{ registros|length }}</h3>
+
+    </div>
+
+    {% for r in registros %}
+
+    <div class="card">
+
+        <h2>🔧 Bomba {{ r.bomba }}</h2>
+
+        <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
+
+        <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
+
+        <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
+
+        <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
+
+        <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
+
+    </div>
+
+    {% endfor %}
+
+    <div class="card">
+
+        /
+            🏠 Volver al inicio
+        </a>
+
+        <a class           🛠 Nuevo mantenimiento
+        </a>
+
+    </div>
+
+</div>
+
 </body>
 </html>
