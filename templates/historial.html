@@ -1,108 +1,64 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Historial de Mantenimientos</title>
-
-    {{ url_for('static', filename='css/style.css') }}
+    <!-- CORREGIDO: Se agregó la etiqueta <link> correcta para el CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
-
     <header>
         <h1>📋 Historial de Mantenimientos</h1>
     </header>
-
+    
     <div class="container">
-
         <!-- Navegación superior -->
         <div class="card de-navegacion">
-
-             }}" class="btn">
-                🏠 Inicio
-            </a>
-
-             }}" class="btn">
-                🛠 Nuevo mantenimiento
-            </a>
-
+            <!-- CORREGIDO: Se estructuraron bien las etiquetas <a> y sus rutas -->
+            <a href="{{ url_for('inicio') }}" class="btn"> 🏠 Inicio </a>
+            <a href="{{ url_for('nuevo_mantenimiento') }}" class="btn"> 🛠 Nuevo mantenimiento </a>
         </div>
 
         <!-- Filtro de bombas -->
         <div class="card">
-
-             }}">
-
-                <label for="bomba">
-                    <b>Filtrar por bomba</b>
-                </label>
-
+            <!-- CORREGIDO: Se agregó la etiqueta <form> de apertura y su método -->
+            <form method="GET" action="{{ url_for('historial_mantenimientos') }}">
+                <label for="bomba"> <b>Filtrar por bomba</b> </label>
                 <select id="bomba" name="bomba">
-
-                    <option value="">
-                        Todas
-                    </option>
-
+                    <option value=""> Todas </option>
                     {% for i in range(1, 24) %}
-
-                        <option
-                            value="C{{ i }}"
-                            {% if request.args.get('bomba') == 'C' ~ i|string %}
-                                selected
-                            {% endif %}
-                        >
-                            C{{ i }}
-                        </option>
-
+                    <!-- CORREGIDO: Optimización de la lógica para marcar la opción seleccionada -->
+                    <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i %} selected {% endif %}>
+                        C{{ i }}
+                    </option>
                     {% endfor %}
-
                 </select>
-
-                <button type="submit">
-                    Filtrar
-                </button>
-
+                <button type="submit"> Filtrar </button>
             </form>
-
         </div>
 
         <!-- Contador de registros -->
         <div class="card">
-
-            <h3>
-                Cantidad de registros: {{ registros|length }}
-            </h3>
-
+            <h3> Cantidad de registros: {{ registros|length }} </h3>
         </div>
 
         <!-- Listado de mantenimientos -->
+        <!-- CORREGIDO: Se estructuró el bucle y se cerraron todas las etiquetas adecuadamente -->
         {% if registros %}
-
             {% for r in registros %}
-
-                <div class="card">
-
-                    <h2>
-                        🔧 Bomba {{ r.bomba }}
-                    </h2>
-
-                    <p>
-                        <strong>📅 Fecha:</strong>
-                        {{ r.fecha }}
-                    </p>
-
-                    <p>
-                        <strong>⚙️ Componente:</strong>
-                        {{ r.componente }}
-                    </p>
-
-                    <p>
-                        <strong>👤 Responsable:</strong>
-                        {{ r.responsable }}
-                    </p>
-
-                    <p>
-   
+            <div class="card">
+                <h2> 🔧 Bomba {{ r.bomba }} </h2>
+                <p> <strong>📅 Fecha:</strong> {{ r.fecha }} </p>
+                <p> <strong>⚙️ Componente:</strong> {{ r.componente }} </p>
+                <p> <strong>👤 Responsable:</strong> {{ r.responsable }} </p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="card">
+                <p>⚠️ No se encontraron registros de mantenimiento.</p>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
