@@ -4,26 +4,14 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# Obtiene la base PostgreSQL de Supabase desde Render.
-# Si DATABASE_URL no existe, usa SQLite solamente como respaldo local.
+# 1. Obtener la URL de la base de datos externa o usar SQLite local
 database_url = os.environ.get("DATABASE_URL", "sqlite:///bombas.db")
-if database_url.startswith("postgresql://"):
-    database_url = database_url.replace(
-        "postgresql://",
-        "postgresql+psycopg://",
-        1
-    )
 
-elif database_url.startswith("postgres://"):
-    database_url = database_url.replace(
-        "postgres://",
-        "postgresql+psycopg://",
-        1
-    )
-
-# Compatibilidad con proveedores que entregan postgres://
-if database_url.startswith("postgres://"):
-    database_url = database_url.replace("postgres://", "postgresql://", 1)
+# 2. Corregir el esquema para SQLAlchemy y forzar el uso de psycopg (Psycopg 3)
+if database_url.startswith("postgres://") or database_url.startswith("postgresql://"):
+    # Reemplaza cualquiera de los dos prefijos por el dialecto explícito de SQLAlchemy
+    database_url = database_url.replace("postgres://", "postgresql+psycopg://", 1)
+    database_url = database_url.replace("postgresql://", "postgresql+psycopg://", 1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -75,7 +63,6 @@ def nuevo():
             return redirect("/historial")
         except Exception as e:
             db.session.rollback()
-            # Aquí podrías retornar un mensaje de error a la plantilla si la base de datos falla
             return f"Error al guardar en la base de datos: {e}", 500
 
     return render_template("registro.html")
@@ -84,10 +71,8 @@ def nuevo():
 def historial():
     bomba = request.args.get("bomba", "").strip()
     consulta = Mantenimiento.query
-    
     if bomba:
         consulta = consulta.filter_by(bomba=bomba)
-        
     registros = consulta.order_by(Mantenimiento.id.desc()).all()
     return render_template("historial.html", registros=registros)
 
@@ -95,14 +80,12 @@ def historial():
 def dashboard():
     total = Mantenimiento.query.count()
     costo_total = db.session.query(db.func.sum(Mantenimiento.costo)).scalar()
-    
     if costo_total is None:
         costo_total = 0.0
-        
     return render_template("dashboard.html", total=total, costo_total=costo_total)
 
 if __name__ == "__main__":
     app.run(
-        host="0.0.0.0", 
+        host="0.0.0.0",
         port=int(os.environ.get("PORT", 5000))
     )
