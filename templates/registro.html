@@ -1,79 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Mantenimiento</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
+    <header>
+        <h1>🛠 Registrar Mantenimiento</h1>
+        <p>SGM Bombas SVE</p>
+    </header>
 
-<header>
-    <h1>� Bombas SVE</p>
-</header>
+    <div class="container">
+        <div class="card de-navegacion">
+            <a href="/">🏠 Menú principal</a>
+            <a href="/historial">📋 Ver historial</a>
+        </div>
 
-<div class="container">
+        <div class="card">
+            <form method="POST">
+                <label><b>📅 Fecha</b></label>
+                <input type="date" name="fecha" required>
 
-    <div class="card">
+                <label><b>🔧 Bomba</b></label>
+                <select name="bomba" required>
+                    {% for i in range(1, 24) %}
+                    <option value="C{{ i }}">C{{ i }}</option>
+                    {% endfor %}
+                </select>
 
-        <form method="POST">
+                <label><b>⚙️ Componente roto</b></label>
+                <select name="componente" required>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
+                </select>
 
-            <label><b>📅 Fecha</b></label>
-            <input type="date"
-                   name="fecha"
-                   required>
+                <label><b>👤 Responsable</b></label>
+                <input type="text" name="responsable" placeholder="Nombre del responsable">
 
-            <label><b>🔧 Bomba</b></label>
-            <select name="bomba">
+                <label><b>💰 Costo ($)</b></label>
+                <input type="number" name="costo" min="0" step="0.01" placeholder="Ingrese el costo" required>
 
-                {% for i in range(1,24) %}
-                <option>C{{i}}</option>
-                {% endfor %}
-
-            </select>
-
-            <label><b>⚙️ Componente roto</b></label>
-            <select name="componente">
-
-                <option>Comando eléctrico</option>
-                <option>Cable y enchufe</option>
-                <option>Motor</option>
-                <option>Turbina</option>
-                <option>Cabezal</option>
-                <option>Rulemán</option>
-                <option>Estopada</option>
-                <option>Pintado</option>
-                <option>Ruedas</option>
-
-            </select>
-
-            <label><b>👤 Responsable</b></label>
-            <input type="text"
-                   name="responsable"
-                   placeholder="Nombre del responsable">
-
-            <label><b>💰 Costo ($)</b></label>
-            <input type="number"
-                   name="costo"
-                   placeholder="Ingrese el costo">
-
-            <label><b>📝 Observaciones</b></label>
-            <textarea name="observacion"
-                      rows="5"
-                      placeholder="Detalle de la reparación..."></textarea>
-
-            <br><br>
-
-            <button type="submit">
-                💾 Guardar Mantenimiento
-            </button>
-
-        </form>
-
+                <!-- Botón para enviar el formulario -->
+                <button type="submit" class="btn-enviar">Guardar Registro</button>
+            </form>
+        </div>
     </div>
-
-    <div class="card">
-
-        /
+</body>
+</html>
