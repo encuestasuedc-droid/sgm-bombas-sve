@@ -7,6 +7,19 @@ app = Flask(__name__)
 # Obtiene la base PostgreSQL de Supabase desde Render.
 # Si DATABASE_URL no existe, usa SQLite solamente como respaldo local.
 database_url = os.environ.get("DATABASE_URL", "sqlite:///bombas.db")
+if database_url.startswith("postgresql://"):
+    database_url = database_url.replace(
+        "postgresql://",
+        "postgresql+psycopg://",
+        1
+    )
+
+elif database_url.startswith("postgres://"):
+    database_url = database_url.replace(
+        "postgres://",
+        "postgresql+psycopg://",
+        1
+    )
 
 # Compatibilidad con proveedores que entregan postgres://
 if database_url.startswith("postgres://"):
