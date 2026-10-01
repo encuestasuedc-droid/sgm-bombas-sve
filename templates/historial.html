@@ -2,7 +2,6 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Mantenimientos</title>
        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -12,20 +11,20 @@
     </header>
     
     <div class="container">
-        <!-- Botón de menú principal -->
-        <div class="card de-navegacion">
-                       <a href="{{ url_for('index') }}">🏠 Menú principal</a>
+        <!-- Botón Menú Principal -->
+        <div class="card">
+                       <a href="{{ url_for('index') }}" class="btn-home">🏠 Menú principal</a>
         </div>
 
-        <!-- Tarjeta de filtro -->
+        <!-- Tarjeta de Filtro -->
         <div class="card">
             <form method="GET">
                 <label for="bomba"><b>Filtrar por bomba</b></label>
-                <select id="bomba" name="bomba">
+                <select name="bomba" id="bomba">
                     <option value="">Todas</option>
                     {% for i in range(1, 24) %}
-                        <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' + i|string %} selected {% endif %}>
-                            C{{ i }}
+                                               <option value="C{{i}}" {% if request.args.get('bomba') == 'C' ~ i %}selected{% endif %}>
+                            C{{i}}
                         </option>
                     {% endfor %}
                 </select>
@@ -34,12 +33,12 @@
             </form>
         </div>
 
-        <!-- Tarjeta de contador -->
+        <!-- Tarjeta de Contador -->
         <div class="card">
-            <h3>Total de registros: {{ registros|length }}</h3>
+            <h3>Total registros: {{ registros|length }}</h3>
         </div>
 
-        <!-- Listado de registros -->
+        <!-- Listado de Registros -->
         {% if registros %}
             {% for r in registros %}
                 <div class="card">
@@ -48,7 +47,7 @@
                     <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
                     <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
                     <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
-                    <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
+                    <p><strong>📝 Descripción:</strong> {{ r.descripcion }}</p>
                 </div>
             {% endfor %}
         {% else %}
