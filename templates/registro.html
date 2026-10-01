@@ -1,80 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Registrar Mantenimiento</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar mantenimiento</title>
+    <!-- CORREGIDO: Sintaxis correcta de url_for para el CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
+    <header>
+        <h1>🛠 Registrar Mantenimiento</h1>
+        <p>SGM Bombas SVE</p>
+    </header>
+    <div class="container">
+        <!-- Navegación -->
+        <div class="card de-navegacion">
+            <!-- CORREGIDO: Se estructuraron bien las etiquetas de anclaje (<a>) y sus rutas -->
+            <a href="{{ url_for('menu') }}" class="btn">🏠 Menú principal</a>
+            <a href="{{ url_for('historial') }}" class="btn">📋 Ver historial</a>
+        </div>
 
-<header>
-    <h1>� Bombas SVE</p>
-</header>
+        <!-- Formulario de mantenimiento -->
+        <div class="card">
+            <form method="POST">
+                <label for="fecha"><strong>📅 Fecha</strong></label>
+                <input type="date" id="fecha" name="fecha" required>
 
-<div class="container">
+                <label for="bomba"><strong>🔧 Bomba</strong></label>
+                <select id="bomba" name="bomba" required>
+                    {% for i in range(1, 24) %}
+                    <option value="C{{ i }}">C{{ i }}</option>
+                    {% endfor %}
+                </select>
 
-    <div class="card">
+                <label for="componente"><strong>⚙️ Componente roto</strong></label>
+                <select id="componente" name="componente" required>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
+                </select>
 
-        <form method="POST">
+                <label for="responsable"><strong>👤 Responsable</strong></label>
+                <input type="text" id="responsable" name="responsable" placeholder="Nombre del responsable" required>
 
-            <label><b>📅 Fecha</b></label>
-            <input type="date"
-                   name="fecha"
-                   required>
+                <label for="costo"><strong>💰 Costo ($)</strong></label>
+                <input type="number" id="costo" name="costo" min="0" step="0.01" placeholder="Ingrese el costo" required>
 
-            <label><b>🔧 Bomba</b></label>
-            <select name="bomba">
+                <label for="observacion"><strong>📝 Observaciones</strong></label>
+                <textarea id="observacion" name="observacion" rows="5" placeholder="Detalle de la reparación realizada"></textarea>
 
-                {% for i in range(1,24) %}
-                <option>C{{i}}</option>
-                {% endfor %}
-
-            </select>
-
-            <label><b>⚙️ Componente roto</b></label>
-            <select name="componente">
-
-                <option>Comando eléctrico</option>
-                <option>Cable y enchufe</option>
-                <option>Motor</option>
-                <option>Turbina</option>
-                <option>Cabezal</option>
-                <option>Rulemán</option>
-                <option>Estopada</option>
-                <option>Pintado</option>
-                <option>Ruedas</option>
-
-            </select>
-
-            <label><b>👤 Responsable</b></label>
-            <input type="text"
-                   name="responsable"
-                   placeholder="Nombre del responsable">
-
-            <label><b>💰 Costo ($)</b></label>
-            <input type="number"
-                   name="costo"
-                   placeholder="Ingrese el costo">
-
-            <label><b>📝 Observaciones</b></label>
-            <textarea name="observacion"
-                      rows="5"
-                      placeholder="Detalle de la reparación..."></textarea>
-
-            <br><br>
-
-            <button type="submit">
-                💾 Guardar Mantenimiento
-            </button>
-
-        </form>
-
+                <button type="submit">💾 Guardar mantenimiento</button>
+            </form>
+        </div>
     </div>
-
-    <div class="card">
-
-        /
-    
+</body>
+</html>
