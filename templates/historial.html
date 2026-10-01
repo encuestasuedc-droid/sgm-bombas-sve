@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Historial de Mantenimientos</title>
-       <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <header>
@@ -11,26 +11,29 @@
     </header>
     
     <div class="container">
-        <!-- Botón Menú Principal -->
-        <div class="card">
-                       <a href="{{ url_for('index') }}" class="btn-home">🏠 Menú principal</a>
-        </div>
-
         <!-- Tarjeta de Filtro -->
         <div class="card">
             <form method="GET">
-                <label for="bomba"><b>Filtrar por bomba</b></label>
-                <select name="bomba" id="bomba">
-                    <option value="">Todas</option>
+                <label><b>Filtrar por bomba</b></label>
+                <select name="bomba">
+                    <option value="" {% if not request.args.get('bomba') %}selected{% endif %}>Todas</option>
                     {% for i in range(1, 24) %}
-                                               <option value="C{{i}}" {% if request.args.get('bomba') == 'C' ~ i %}selected{% endif %}>
-                            C{{i}}
+                        {% set codigo_bomba = 'C' ~ i %}
+                        <option value="{{ codigo_bomba }}" {% if request.args.get('bomba') == codigo_bomba %}selected{% endif %}>
+                            {{ codigo_bomba }}
                         </option>
                     {% endfor %}
                 </select>
                 <br><br>
-                <button type="submit">Filtrar</button>
+                <button type="submit"> Filtrar </button>
             </form>
+        </div>
+
+        <!-- Botón Menú Principal -->
+        <div class="card" style="text-align: center;">
+            <a href="{{ url_for('index') }}" class="btn-link" style="text-decoration: none; color: inherit; font-weight: bold;">
+                🏠 Menú principal
+            </a>
         </div>
 
         <!-- Tarjeta de Contador -->
