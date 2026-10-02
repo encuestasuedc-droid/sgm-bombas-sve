@@ -2,149 +2,241 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SGM Bombas SVE</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    
+    <!-- Corrección de la etiqueta link para el CSS externo -->
+    <link rel="stylesheet" href="/static/css/style.css"> 
     <style>
-        body.inicio-app {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f5f0eb;
+        * { 
+            box-sizing: border-box; 
         }
-        .portada-sve {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
-            background-image: linear-gradient(
-                90deg,
-                rgba(255, 253, 250, 0.93) 0%,
-                rgba(255, 253, 250, 0.84) 48%,
-                rgba(255, 253, 250, 0.20) 100%
-            ), url("{{ url_for('static', filename='img/sve57.png') }}");
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: cover;
+        html, body { 
+            margin: 0; 
+            min-height: 100%; 
         }
-        .portada-sve::before {
-            content: "";
-            position: absolute;
-            top: -190px;
-            right: -180px;
-            width: 620px;
-            height: 440px;
-            background: linear-gradient(
-                135deg,
-                #761052,
-                #4b0437
-            );
-            border-radius: 48%;
-            transform: rotate(13deg);
-            opacity: 0.95;
+        body { 
+            font-family: Arial, Helvetica, sans-serif; 
+            background-color: #f5f0eb; 
         }
-        .portada-sve::after {
-            content: "";
-            position: absolute;
-            left: -320px;
-            bottom: -440px;
-            width: 850px;
-            height: 760px;
-            background: linear-gradient(
-                145deg,
-                #4d0639,
-                #791054
-            );
-            border: 16px solid rgba(221, 185, 215, 0.85);
-            border-radius: 50%;
-            transform: rotate(-14deg);
+        .inicio-portada { 
+            position: relative; 
+            min-height: 100vh; 
+            overflow: hidden; 
+            background-color: #f5f0eb; 
+            background-image: linear-gradient( 90deg, rgba(255, 253, 250, 0.96) 0%, rgba(255, 253, 250, 0.88) 43%, rgba(255, 253, 250, 0.30) 75%, rgba(255, 253, 250, 0.08) 100% ), url("/static/img/sve57.png"); 
+            background-repeat: no-repeat; 
+            background-position: center center; 
+            background-size: cover; 
         }
-        .portada-contenido {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            width: min(1180px, 88%);
-            min-height: calc(100vh - 80px);
-            margin: auto;
-            padding: 40px 0;
+        .inicio-portada::before { 
+            content: ""; 
+            position: absolute; 
+            top: -220px; 
+            right: -170px; 
+            width: 650px; 
+            height: 470px; 
+            background: linear-gradient( 135deg, #80105c, #4b0437 ); 
+            border-radius: 48%; 
+            transform: rotate(12deg); 
+            opacity: 0.96; 
         }
-        .marca-superior {
-            max-width: 760px;
-            color: #590744;
+        .inicio-portada::after { 
+            content: ""; 
+            position: absolute; 
+            bottom: -470px; 
+            left: -340px; 
+            width: 880px; 
+            height: 790px; 
+            background: linear-gradient( 145deg, #4d0639, #791054 ); 
+            border: 16px solid rgba(221, 185, 215, 0.88); 
+            border-radius: 50%; 
+            transform: rotate(-14deg); 
         }
-        .marca-sistema {
-            display: inline-block;
-            margin-bottom: 20px;
-            padding: 7px 14px;
-            color: white;
-            background-color: #6b123c;
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 2px;
+        .inicio-contenido { 
+            position: relative; 
+            z-index: 2; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            width: min(1180px, 88%); 
+            min-height: 100vh; 
+            margin: auto; 
+            padding: 42px 0 34px; 
         }
-        .titulo-principal {
-            margin: 0;
-            color: #590744;
-            font-size: clamp(44px, 6.5vw, 86px);
-            font-weight: 400;
-            line-height: 0.94;
-            letter-spacing: -2px;
+        .inicio-superior { 
+            max-width: 790px; 
+            padding-top: 60px; 
+            color: #590744; 
         }
-        .titulo-principal strong {
-            display: block;
-            font-weight: 900;
+        .sistema-etiqueta { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            padding: 8px 15px; 
+            color: white; 
+            background: #6b123c; 
+            border-radius: 30px; 
+            font-size: 12px; 
+            font-weight: bold; 
+            letter-spacing: 2px; 
         }
-        .subtitulo-principal {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            margin-top: 28px;
-            color: #6b1754;
-            font-size: clamp(14px, 2vw, 21px);
-            letter-spacing: 5px;
-            text-transform: uppercase;
+        .titulo-inicio { 
+            margin: 0; 
+            color: #590744; 
+            font-size: clamp(45px, 6.5vw, 88px); 
+            font-weight: 400; 
+            line-height: 0.94; 
+            letter-spacing: -2px; 
         }
-        .subtitulo-principal::before,
-        .subtitulo-principal::after {
-            content: "";
-            flex: 1;
-            max-width: 155px;
-            height: 2px;
-            background-color: #73105a;
+        .titulo-inicio strong { 
+            display: block; 
+            font-weight: 900; 
         }
-        .menu-principal {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
-            margin: 45px 0 30px;
+        .subtitulo-inicio { 
+            display: flex; 
+            align-items: center; 
+            gap: 17px; 
+            margin-top: 28px; 
+            color: #6b1754; 
+            font-size: clamp(14px, 2vw, 21px); 
+            letter-spacing: 5px; 
+            text-transform: uppercase; 
         }
-        .boton-menu {
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            min-height: 110px;
-            padding: 22px;
-            color: #590744;
-            text-decoration: none;
-            background: rgba(255, 255, 255, 0.92);
-            border: 1px solid rgba(89, 7, 68, 0.16);
-            border-radius: 22px;
-            box-shadow: 0 15px 35px rgba(61, 8, 46, 0.18);
-            backdrop-filter: blur(10px);
-            transition: transform 0.22s ease, color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+        .subtitulo-inicio::before, .subtitulo-inicio::after { 
+            content: ""; 
+            flex: 1; 
+            max-width: 150px; 
+            height: 2px; 
+            background: #73105a; 
         }
-        .boton-menu:hover {
-            color: white;
-            background: linear-gradient(
-                135deg,
-                #761052,
-                #4f063a
-            );
-            transform: translateY(-6px);
-            box-shadow: 0 24px 50px rgba(61, 8, 46, 0.3); /* CORRECCIÓN: Se cerró la regla truncada */
+        .menu-aplicacion { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 22px; 
+            margin: 46px 0 30px; 
+        }
+        .boton-aplicacion { 
+            display: flex; 
+            align-items: center; 
+            gap: 18px; 
+            min-height: 116px; 
+            padding: 22px; 
+            color: #590744; 
+            text-decoration: none; 
+            background: rgba(255, 255, 255, 0.94); 
+            border: 1px solid rgba(89, 7, 68, 0.17); 
+            border-radius: 22px; 
+            box-shadow: 0 16px 38px rgba(61, 8, 46, 0.19); 
+            backdrop-filter: blur(10px); 
+            -webkit-backdrop-filter: blur(10px); 
+            transition: transform 0.22s ease, color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease; 
+        }
+        .boton-aplicacion:hover { 
+            color: white; 
+            background: linear-gradient( 135deg, #761052, #4f063a ); 
+            transform: translateY(-6px); 
+            box-shadow: 0 24px 50px rgba(61, 8, 46, 0.30); 
+        }
+        .icono-aplicacion { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            width: 72px; 
+            height: 72px; 
+            background: linear-gradient( 145deg, #f3dff0, #e9cbe4 ); 
+            border-radius: 50%; 
+            font-size: 32px; 
+ Cambios aplicados u ocultos -->
+        }
+        .boton-aplicacion:hover .icono-aplicacion { 
+            background: rgba(255, 255, 255, 0.18); 
+        }
+        .texto-aplicacion strong { 
+            display: block; 
+            font-size: 19px; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+        }
+        .texto-aplicacion small { 
+            display: block; 
+            margin-top: 6px; 
+            font-size: 13px; 
+            opacity: 0.75; 
+        }
+        .beneficios-inicio { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 14px; 
+        }
+        .beneficio-inicio { 
+            display: flex; 
+            align-items: center; 
+            gap: 12px; 
+            min-height: 64px; 
+            padding: 14px 17px; 
+            color: white; 
+            background: rgba(67, 4, 48, 0.82); 
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 14px; /* Añadido para consistencia visual */
+            backdrop-filter: blur(5px);
         }
     </style>
 </head>
+<body>
+
+    <div class="inicio-portada">
+        <div class="inicio-contenido">
+            
+            <!-- Bloque Superior -->
+            <div class="inicio-superior">
+                <span class="sistema-etiqueta">SISTEMA SVE</span>
+                <h1 class="titulo-inicio">SGM <strong>Bombas SVE</strong></h1>
+                <div class="subtitulo-inicio">Alta Tecnología</div>
+            </div>
+
+            <!-- Menú de Aplicaciones -->
+            <div class="menu-aplicacion">
+                <a href="#" class="boton-aplicacion">
+                    <div class="icono-aplicacion">📊</div>
+                    <div class="texto-aplicacion">
+                        <strong>Monitoreo</strong>
+                        <small>Estado en tiempo real</small>
+                    </div>
+                </a>
+                <a href="#" class="boton-aplicacion">
+                    <div class="icono-aplicacion">⚙️</div>
+                    <div class="texto-aplicacion">
+                        <strong>Control</strong>
+                        <small>Configuración de flujo</small>
+                    </div>
+                </a>
+                <a href="#" class="boton-aplicacion">
+                    <div class="icono-aplicacion">📋</div>
+                    <div class="texto-aplicacion">
+                        <strong>Reportes</strong>
+                        <small>Historial de rendimiento</small>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Barra Inferior de Beneficios -->
+            <div class="beneficios-inicio">
+                <div class="beneficio-inicio">
+                    <span>⚡</span>
+                    <div>Eficiencia Energética</div>
+                </div>
+                <div class="beneficio-inicio">
+                    <span>🛡️</span>
+                    <div>Máxima Seguridad</div>
+                </div>
+                <div class="beneficio-inicio">
+                    <span>🔄</span>
+                    <div>Soporte Continuo</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
