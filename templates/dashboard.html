@@ -3,28 +3,135 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Dashboard SGM Bombas SVE</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
+    <header>
+        <h1>📊 Dashboard de Mantenimiento</h1>
+        <p>SGM Bombas SVE</p>
+    </header>
     <div class="container">
-        
-        <!-- Botón Menú Principal -->
-        <div class="card">
+        <!-- Navegación -->
+        <div class="card de-navegacion">
             <a href="/">🏠 Menú principal</a>
+            <a href="/nuevo">🛠 Registrar mantenimiento</a>
+            <a href="/historial">📋 Ver historial</a>
         </div>
 
+        <!-- Indicadores principales -->
+        <div class="dashboard-grid">
+            <div class="card kpi-card">
+                <div class="kpi-icono">🔧</div>
+                <h3>Total de reparaciones</h3>
+                <div class="kpi-valor">{{ total }}</div>
+            </div>
+            <div class="card kpi-card">
+                <div class="kpi-icono">💰</div>
+                <h3>Costo total</h3>
+                <div class="kpi-valor">$ {{ "{:,.0f}".format(costo_total).replace(",", ".") }}</div>
+            </div>
+            <div class="card kpi-card">
+                <div class="kpi-icono">⚙️</div>
+                <h3>Bombas intervenidas</h3>
+                <div class="kpi-valor">{{ bombas_intervenidas }}</div>
+                <p class="kpi-detalle">De un total de 23 bombas</p>
+            </div>
+            <div class="card kpi-card">
+                <div class="kpi-icono">🚨</div>
+                <h3>Bomba con más intervenciones</h3>
+                <div class="kpi-valor">{{ bomba_critica }}</div>
+                <p class="kpi-detalle">{{ mayor_cantidad }} mantenimiento(s)</p>
+            </div>
+            <div class="card kpi-card">
+                <div class="kpi-icono">🧾</div>
+                <h3>Costo promedio</h3>
+                <div class="kpi-valor">$ {{ "{:,.0f}".format(costo_promedio).replace(",", ".") }}</div>
+                <p class="kpi-detalle">Por mantenimiento</p>
+            </div>
+        </div>
+
+        <!-- Último mantenimiento -->
         <div class="card">
-            <h2>Total Reparaciones</h2>
-            <h1>{{ total }}</h1>
+            <h2>🕒 Último mantenimiento registrado</h2>
+            {% if ultimo_mantenimiento %}
+            <div class="ultimo-registro">
+                <p><strong>🔧 Bomba:</strong> {{ ultimo_mantenimiento.bomba }}</p>
+                <p><strong>📅 Fecha:</strong> {{ ultimo_mantenimiento.fecha }}</p>
+                <p><strong>⚙️ Componente:</strong> {{ ultimo_mantenimiento.componente }}</p>
+                <p><strong>👤 Responsable:</strong> {{ ultimo_mantenimiento.responsable }}</p>
+                <p><strong>💰 Costo:</strong> $ {{ "{:,.0f}".format(ultimo_mantenimiento.costo).replace(",", ".") }}</p>
+                <p><strong>📝 Observación:</strong> {{ ultimo_mantenimiento.observacion }}</p>
+            </div>
+            {% else %}
+            <p>Todavía no hay mantenimientos registrados.</p>
+            {% endif %}
         </div>
 
+        <!-- Ranking de bombas -->
         <div class="card">
-            <h2>Costo Total</h2>
-            <h1>${{ costo_total }}</h1>
+            <h2>🏆 Ranking de bombas</h2>
+            <p class="texto-secundario">Ordenado por cantidad de mantenimientos registrados.</p>
+            {% if ranking %}
+            <div class="tabla-responsive">
+                <table class="tabla-ranking">
+                    <thead>
+                        <tr>
+                            <th>Posición</th>
+                            <th>Bomba</th>
+                            <th>Mantenimientos</th>
+                            <th>Costo acumulado</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in ranking %}
+                        <tr>
+                            <td>
+                                {% if loop.index == 1 %} 🥇
+                                {% elif loop.index == 2 %} 🥈
+                                {% elif loop.index == 3 %} 🥉
+                                {% else %} {{ loop.index }}
+                                {% endif %}
+                            </td>
+                            <td><strong>{{ item.bomba }}</strong></td>
+                            <td>{{ item.cantidad }}</td>
+                            <td>$ {{ "{:,.0f}".format(item.costo_acumulado or 0).replace(",", ".") }}</td>
+                            <td>
+                                {% if item.cantidad <= 2 %}
+                                <span class="estado normal">🟢 Normal</span>
+                                {% elif item.cantidad <= 5 %}
+                                <span class="estado atencion">🟡 Atención</span>
+                                {% else %}
+                                <span class="estado critica">🔴 Crítica</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p>Todavía no existen datos para generar el ranking.</p>
+            {% endif %}
         </div>
 
-       
+        <!-- Componentes más reparados -->
+        <div class="card">
+            <h2>⚙️ Componentes más reparados</h2>
+            {% if componentes %}
+            <div class="lista-componentes">
+                {% for item in componentes %}
+                <div class="componente-item">
+                    <div class="componente-nombre">{{ item.componente }}</div>
+                    <div class="componente-cantidad">{{ item.cantidad }} mantenimiento(s)</div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p>Todavía no existen datos de componentes.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>
