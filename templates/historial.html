@@ -1,76 +1,168 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Historial de Mantenimientos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {{ url_for('static', filename='css/style.css') }}
 </head>
+
 <body>
+
     <header>
         <h1>📋 Historial de Mantenimientos</h1>
     </header>
-    
+
     <div class="container">
+
         <!-- Navegación -->
         <div class="card de-navegacion">
-            <a href="{{ url_for('menu_principal') }}">🏠 Menú principal</a> / 
-            <a href="{{ url_for('nuevo_mantenimiento') }}">🛠 Nuevo mantenimiento</a>
+
+             }}"
+                class="btn"
+            >
+                🏠 Menú principal
+            </a>
+
+             }}"
+                class="btn"
+            >
+                🛠 Nuevo mantenimiento
+            </a>
+
         </div>
 
-        <!-- Tarjeta de filtro -->
+        <!-- Filtro -->
         <div class="card">
+
             <form method="GET">
-                <label><b>Filtrar por bomba</b></label>
+
+                <label>
+                    <b>Filtrar por bomba</b>
+                </label>
+
                 <select name="bomba">
-                    <option value="">Todas</option>
+
+                    <option value="">
+                        Todas
+                    </option>
+
                     {% for i in range(1, 24) %}
-                        <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i|string %}selected{% endif %}>
+
+                        <option
+                            value="C{{ i }}"
+                            {% if request.args.get('bomba') == 'C' ~ i|string %}
+                                selected
+                            {% endif %}
+                        >
                             C{{ i }}
                         </option>
+
                     {% endfor %}
+
                 </select>
+
                 <br><br>
-                <button type="submit">Filtrar</button>
+
+                <button type="submit">
+                    Filtrar
+                </button>
+
             </form>
+
         </div>
 
-        <!-- Tarjeta de contador -->
+        <!-- Contador -->
         <div class="card">
-            <h3>Total registros: {{ registros|length }}</h3>
+
+            <h3>
+                Total registros: {{ registros|length }}
+            </h3>
+
         </div>
 
-        <!-- Listado de registros -->
+        <!-- Registros -->
         {% if registros %}
+
             {% for r in registros %}
+
                 <div class="card">
-                    <h2>🔧 Bomba {{ r.bomba }}</h2>
-                    <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
-                    <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
-                    <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
-                    <!-- CORREGIDO: Se agregó el filtro |int o |float si es necesario, o se deja directo -->
-                    <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
-                    <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
-                    
-            
-                    <form action="{{ url_for('eliminar_registro', id=r.id) }}" method="POST" onsubmit="return confirmarEliminacion();" style="display:inline;">
-                        <button type="submit" class="btn-eliminar">
+
+                    <h2>
+                        🔧 Bomba {{ r.bomba }}
+                    </h2>
+
+                    <p>
+                        <strong>📅 Fecha:</strong>
+                        {{ r.fecha }}
+                    </p>
+
+                    <p>
+                        <strong>⚙️ Componente:</strong>
+                        {{ r.componente }}
+                    </p>
+
+                    <p>
+                        <strong>👤 Responsable:</strong>
+                        {{ r.responsable }}
+                    </p>
+
+                    <p>
+                        <strong>💰 Costo:</strong>
+                        ${{ r.costo }}
+                    </p>
+
+                    <p>
+                        <strong>📝 Observación:</strong>
+                        {{ r.observacion }}
+                    </p>
+
+                     }}"
+                        onsubmit="return confirmarEliminacion();"
+                    >
+
+                        <button
+                            type="submit"
+                            class="btn-eliminar"
+                        >
                             🗑️ Eliminar registro
                         </button>
+
                     </form>
+
                 </div>
+
             {% endfor %}
+
         {% else %}
+
             <div class="card">
-                <p>No se encontraron registros de mantenimiento.</p>
+
+                <p>
+                    No se encontraron registros de mantenimiento.
+                </p>
+
             </div>
+
         {% endif %}
+
     </div>
 
     <script>
         function confirmarEliminacion() {
-            return confirm("¿Está seguro de que desea eliminar este mantenimiento? Esta acción no se puede deshacer.");
+            return confirm(
+                "¿Está seguro de que desea eliminar este mantenimiento? " +
+                "Esta acción no se puede deshacer."
+            );
         }
     </script>
+
 </body>
+
 </html>
