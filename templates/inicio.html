@@ -1,296 +1,158 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>SGM Bombas SVE</title>
+
     <style>
         * {
             box-sizing: border-box;
         }
-        html, body {
+
+        html,
+        body {
             margin: 0;
             min-height: 100%;
         }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f7f4ef;
         }
+
         .inicio-pantalla {
+            position: relative;
             display: grid;
             grid-template-columns: 48% 52%;
             min-height: 100vh;
+            overflow: hidden;
             background-color: #faf8f4;
         }
+
         /* Panel izquierdo */
+
         .inicio-contenido {
             position: relative;
-            z-index: 2;
+            z-index: 5;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 55px 7vw 85px;
+            padding: 55px 6vw 95px;
             overflow: hidden;
-            background: radial-gradient( circle at 10% 10%, rgba(223, 190, 219, 0.30), transparent 32% ), #faf8f4;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(223, 190, 219, 0.30),
+                    transparent 32%
+                ),
+                #faf8f4;
         }
+
         .inicio-contenido::after {
             content: "";
             position: absolute;
             z-index: -1;
             left: -320px;
-            bottom: -500px;
+            bottom: -510px;
             width: 730px;
             height: 660px;
-            background: linear-gradient( 145deg, #4d0639, #771052 );
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #4d0639,
+                    #771052
+                );
+
             border: 14px solid #dfbedb;
             border-radius: 50%;
             transform: rotate(-15deg);
+
+            pointer-events: none;
         }
+
         .etiqueta-sistema {
             align-self: flex-start;
             margin-bottom: 22px;
             padding: 7px 14px;
+
             color: #ffffff;
             background-color: #6b123c;
             border-radius: 30px;
+
             font-size: 11px;
             font-weight: bold;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
+
         .logo-sve {
             display: block;
-            width: min(340px, 88%);
+            width: min(350px, 88%);
             height: auto;
             margin-bottom: 24px;
+
             object-fit: contain;
             object-position: left center;
         }
+
         .descripcion {
             max-width: 530px;
             margin: 0;
+
             color: #624957;
             font-size: 17px;
             line-height: 1.6;
         }
+
         /* Menú principal */
+
         .menu-links {
+            position: relative;
+            z-index: 10;
+
             display: grid;
             gap: 15px;
+
             width: min(570px, 100%);
             margin-top: 36px;
         }
-        .menu-links a {
+
+        .boton-menu {
             display: flex;
             align-items: center;
             gap: 18px;
+
             width: 100%;
             min-height: 91px;
             padding: 16px 20px;
+
             color: #590744;
-            text-decoration: none;
-            background-color: rgba(255, 255, 255, 0.96);
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: left;
+
+            background-color: rgba(255, 255, 255, 0.97);
             border: 1px solid rgba(89, 7, 68, 0.16);
             border-radius: 18px;
-            box-shadow: 0 12px 30px rgba(70, 15, 52, 0.13);
-            transition: transform 0.20s ease, color 0.20s ease, background 0.20s ease, box-shadow 0.20s ease;
-        }
-        .menu-links a:hover {
-            color: #ffffff;
-            background: linear-gradient( 135deg, #771052, #4e0639 );
-            transform: translateX(7px);
-            box-shadow: 0 18px 38px rgba(70, 15, 52, 0.25);
-        }
-        .menu-icono {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            width: 60px;
-            height: 60px;
-            background-color: #f0dced;
-            border-radius: 50%;
-            font-size: 28px;
-        }
-        .menu-links a:hover .menu-icono {
-            background-color: rgba(255, 255, 255, 0.18);
-        }
-        .menu-texto {
-            display: block;
-        }
-        .menu-texto strong {
-            display: block;
-            font-size: 17px;
-            line-height: 1.2;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-        }
-        .menu-texto small {
-            display: block;
-            margin-top: 5px;
-            font-size: 13px;
-            line-height: 1.3;
-            opacity: 0.73;
-        }
-        /* Panel derecho con la imagen */
-        .inicio-imagen {
-            position: relative;
-            min-height: 100vh;
-            overflow: hidden;
-            background-color: #f5f0eb;
-        }
-        .inicio-imagen::before {
-            content: "";
-            position: absolute;
-            z-index: 2;
-            inset: 0;
-            background: linear-gradient( 90deg, #faf8f4 0%, rgba(250, 248, 244, 0.50) 10%, rgba(250, 248, 244, 0.08) 28%, rgba(250, 248, 244, 0) 45% );
-            pointer-events: none;
-        }
-        .inicio-imagen::after {
-            content: "";
-            position: absolute;
-            z-index: 3;
-            top: -230px;
-            right: -180px;
-            width: 520px;
-            height: 380px;
-            background: linear-gradient( 135deg, #771052, #4e0639 );
-            border-radius: 50%;
-            transform: rotate(14deg);
-            pointer-events: none;
-        }
-        .foto-bombas {
-            display: block;
-            width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            object-position: center center;
-        }
-        /* Beneficios inferiores */
-        .beneficios {
-            position: absolute;
-            z-index: 10;
-            left: 50%;
-            bottom: 16px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: min(920px, 72%);
-            transform: translateX(-50%);
-        }
-        .beneficio {
-            min-height: 52px;
-            padding: 14px;
-            color: #ffffff;
-            background-color: rgba(82, 7, 60, 0.88);
-            border: 1px solid rgba(255, 255, 255, 0.20);
-            border-radius: 12px;
-            text-align: center;
-            font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            backdrop-filter: blur(8px);
-        }
-        /* Tablet */
-        @media (max-width: 950px) {
-            .inicio-pantalla {
-                grid-template-columns: 1fr;
-            }
-            .inicio-contenido {
-                min-height: auto;
-                padding: 55px 7vw 45px;
-            }
-            .inicio-imagen {
-                min-height: 520px;
-            }
-            .foto-bombas {
-                height: 520px;
-                object-position: center center;
-            }
-            .inicio-imagen::before {
-                background: linear-gradient( 180deg, #faf8f4 0%, rgba(250, 248, 244, 0.20) 20%, rgba(250, 248, 244, 0) 45% );
-            }
-            .beneficios {
-                width: 90%;
-                bottom: 24px;
-            }
-        }
-        /* Mobile */
-        @media (max-width: 600px) {
-            .beneficios {
-                grid-template-columns: 1fr;
-                position: static;
-                transform: none;
-                width: 100%;
-                padding: 20px;
-                background-color: #faf8f4;
-            }
-            .beneficio {
-                background-color: #6b123c;
-            }
-        }
-    </style>
-</head>
-<body>
 
-    <div class="inicio-pantalla">
-        <!-- Panel izquierdo: Contenido y Navegación -->
-        <main class="inicio-contenido">
-            <span class="etiqueta-sistema">Sistema de Gestión Comercial</span>
-            
-            <!-- Reemplaza src con la ruta de tu logo real -->
-            <img src="https://placeholder.com" alt="SVE Bombas Logo" class="logo-sve">
-            
-            <p class="descripcion">
-                Bienvenido al Panel de Control de SGM Bombas SVE. Administre eficientemente la distribución, inventario y soporte técnico desde una sola plataforma centralizada.
-            </p>
+            box-shadow:
+                0 12px 30px rgba(70, 15, 52, 0.13);
 
-            <nav class="menu-links">
-                <a href="#monitoreo">
-                    <span class="menu-icono">📊</span>
-                    <span class="menu-texto">
-                        <strong>Monitoreo de Equipos</strong>
-                        <small>Estado actual de las bombas en tiempo real</small>
-                    </span>
-                </a>
-                <a href="#inventario">
-                    <span class="menu-icono">📦</span>
-                    <span class="menu-texto">
-                        <strong>Control de Inventario</strong>
-                        <small>Stock disponible, altas y bajas de productos</small>
-                    </span>
-                </a>
-                <a href="#ventas">
-                    <span class="menu-icono">💼</span>
-                    <span class="menu-texto">
-                        <strong>Gestión Comercial</strong>
-                        <small>Facturación, clientes y pedidos en curso</small>
-                    </span>
-                </a>
-                <a href="#soporte">
-                    <span class="menu-icono">🛠️</span>
-                    <span class="menu-texto">
-                        <strong>Soporte Técnico</strong>
-                        <small>Garantías, reportes de fallas y asistencia</small>
-                    </span>
-                </a>
-            </nav>
-        </main>
+            cursor: pointer;
 
-        <!-- Panel derecho: Imagen y Beneficios -->
-        <section class="inicio-imagen">
-            <!-- Reemplaza src con tu imagen real de las bombas -->
-            <img src="https://unsplash.com" alt="Bombas SVE Industriales" class="foto-bombas">
-            
-            <div class="beneficios">
-                <div class="beneficio">Máxima Eficiencia</div>
-                <div class="beneficio">Soporte 24/7</div>
-                <div class="beneficio">Tecnología SVE</div>
-            </div>
-        </section>
-    </div>
+            transition:
+                transform 0.20s ease,
+                color 0.20s ease,
+                background 0.20s ease,
+                box-shadow 0.20s ease;
+        }
 
-</body>
-</html>
+        .boton-menu:hover
