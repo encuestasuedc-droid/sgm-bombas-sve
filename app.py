@@ -1,3 +1,9 @@
+from flask import Flask, render_template_string
+
+app = Flask(__name__)
+
+# Guardamos todo tu diseño HTML y CSS dentro de una variable de Python segura
+html_layout = """
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -279,18 +285,13 @@
 </head>
 <body>
     <main class="inicio-app">
-        <!-- Panel izquierdo -->
         <section class="panel-principal">
             <span class="etiqueta-sistema">SISTEMA SVE</span>
-            
             <img class="logo-principal" src="/static/img/logo_sve.png" alt="Logo SGM SVE">
-            
             <p class="descripcion-principal">
                 Sistema de registro y seguimiento de mantenimientos para las bombas C1 a C23.
             </p>
-            
             <nav class="menu-principal">
-                <!-- Registro de mantenimiento -->
                 <a href="/nuevo" class="boton-menu">
                     <span class="boton-icono">⚙️</span>
                     <span class="boton-texto">
@@ -298,8 +299,6 @@
                         <small>Crear una nueva orden de mantenimiento</small>
                     </span>
                 </a>
-
-                <!-- Estado de la planta / bombas -->
                 <a href="/seguimiento" class="boton-menu">
                     <span class="boton-icono">📊</span>
                     <span class="boton-texto">
@@ -307,9 +306,9 @@
                         <small>Ver estados operativos de C1 a C23</small>
                     </span>
                 </a>
-
-                <!-- Consulta de registros históricos -->
                 <a href="/historial" class="boton-menu">
                     <span class="boton-icono">📋</span>
                     <span class="boton-texto">
                         <strong>Historial General</strong>
+                        <small>Buscar mantenimientos anteriores</small>
+                    </span>
