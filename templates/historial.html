@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial de Mantenimientos</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
@@ -8,32 +10,37 @@
     <header>
         <h1>📋 Historial de Mantenimientos</h1>
     </header>
-
+    
     <div class="container">
+        <!-- Navegación -->
         <div class="card de-navegacion">
-            <a href="/">🏠 Menú principal</a>
-                    </div>
-        <!-- Tarjeta de Filtro -->
+            <a href="{{ url_for('menu_principal') }}">🏠 Menú principal</a> / 
+            <a href="{{ url_for('nuevo_mantenimiento') }}">🛠 Nuevo mantenimiento</a>
+        </div>
+
+        <!-- Tarjeta de filtro -->
         <div class="card">
             <form method="GET">
                 <label><b>Filtrar por bomba</b></label>
                 <select name="bomba">
                     <option value="">Todas</option>
                     {% for i in range(1, 24) %}
-                        <option value="C{{i}}"> C{{i}} </option>
+                        <option value="C{{ i }}" {% if request.args.get('bomba') == 'C' ~ i|string %}selected{% endif %}>
+                            C{{ i }}
+                        </option>
                     {% endfor %}
                 </select>
                 <br><br>
-                <button type="submit"> Filtrar </button>
+                <button type="submit">Filtrar</button>
             </form>
         </div>
 
-        <!-- Tarjeta de Contador -->
+        <!-- Tarjeta de contador -->
         <div class="card">
             <h3>Total registros: {{ registros|length }}</h3>
         </div>
 
-        <!-- Listado de Registros -->
+        <!-- Listado de registros -->
         {% if registros %}
             {% for r in registros %}
                 <div class="card">
@@ -41,8 +48,16 @@
                     <p><strong>📅 Fecha:</strong> {{ r.fecha }}</p>
                     <p><strong>⚙️ Componente:</strong> {{ r.componente }}</p>
                     <p><strong>👤 Responsable:</strong> {{ r.responsable }}</p>
+                    <!-- CORREGIDO: Se agregó el filtro |int o |float si es necesario, o se deja directo -->
                     <p><strong>💰 Costo:</strong> ${{ r.costo }}</p>
-                    <p><strong>📝 Descripción:</strong> {{ r.descripcion }}</p>
+                    <p><strong>📝 Observación:</strong> {{ r.observacion }}</p>
+                    
+            
+                    <form action="{{ url_for('eliminar_registro', id=r.id) }}" method="POST" onsubmit="return confirmarEliminacion();" style="display:inline;">
+                        <button type="submit" class="btn-eliminar">
+                            🗑️ Eliminar registro
+                        </button>
+                    </form>
                 </div>
             {% endfor %}
         {% else %}
@@ -51,5 +66,11 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        function confirmarEliminacion() {
+            return confirm("¿Está seguro de que desea eliminar este mantenimiento? Esta acción no se puede deshacer.");
+        }
+    </script>
 </body>
 </html>
