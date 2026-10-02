@@ -1,369 +1,394 @@
-import os
-
-from flask import Flask, render_template, request, redirect
-from flask_sqlalchemy import SQLAlchemy
-
-
-app = Flask(__name__)
-
-
-# Obtener la URL de Supabase desde Render.
-# Si DATABASE_URL no existe, usa SQLite como respaldo local.
-database_url = os.environ.get(
-    "DATABASE_URL",
-    "sqlite:///bombas.db"
-)
-
-
-# Configurar explícitamente Psycopg 3 para PostgreSQL.
-if database_url.startswith("postgres://"):
-    database_url = database_url.replace(
-        "postgres://",
-        "postgresql+psycopg://",
-        1
-    )
-
-elif database_url.startswith("postgresql://"):
-    database_url = database_url.replace(
-        "postgresql://",
-        "postgresql+psycopg://",
-        1
-    )
-
-
-app.config["SQLALCHEMY_DATABASE_URI"] = database_url
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
-    "pool_pre_ping": True,
-    "pool_recycle": 280
-}
-
-
-db = SQLAlchemy(app)
-
-
-# Modelo de mantenimientos
-class Mantenimiento(db.Model):
-    id = db.Column(
-        db.Integer,
-        primary_key=True
-    )
-
-    fecha = db.Column(
-        db.String(20),
-        nullable=False
-    )
-
-    bomba = db.Column(
-        db.String(20),
-        nullable=False
-    )
-
-    componente = db.Column(
-        db.String(100),
-        nullable=False
-    )
-
-    responsable = db.Column(
-        db.String(100),
-        nullable=False
-    )
-
-    costo = db.Column(
-        db.Float,
-        nullable=False,
-        default=0.0
-    )
-
-    observacion = db.Column(
-        db.String(500)
-    )
-
-
-# Crear la tabla si todavía no existe
-with app.app_context():
-    db.create_all()
-
-
-# Pantalla de inicio
-@app.route("/")
-def inicio():
-    return render_template("inicio.html")
-
-
-# Registrar mantenimiento
-@app.route("/nuevo", methods=["GET", "POST"])
-def nuevo():
-
-    if request.method == "POST":
-
-        costo_texto = request.form.get(
-            "costo",
-            "0"
-        ).strip()
-
-        try:
-            costo = (
-                float(costo_texto)
-                if costo_texto
-                else 0.0
-            )
-
-        except ValueError:
-            costo = 0.0
-
-        nuevo_registro = Mantenimiento(
-            fecha=request.form.get(
-                "fecha",
-                ""
-            ).strip(),
-            bomba=request.form.get(
-                "bomba",
-                ""
-            ).strip(),
-            componente=request.form.get(
-                "componente",
-                ""
-            ).strip(),
-            responsable=request.form.get(
-                "responsable",
-                ""
-            ).strip(),
-            costo=costo,
-            observacion=request.form.get(
-                "observacion",
-                ""
-            ).strip()
-        )
-
-        try:
-            db.session.add(nuevo_registro)
-            db.session.commit()
-
-            return redirect("/historial")
-
-        except Exception:
-            db.session.rollback()
-
-            app.logger.exception(
-                "Error al guardar el mantenimiento"
-            )
-
-            return (
-                "No se pudo guardar el mantenimiento. "
-                "Revisá la conexión con la base de datos.",
-                500
-            )
-
-    return render_template("registro.html")
-
-
-# Historial y filtro por bomba
-@app.route("/historial")
-def historial():
-
-    bomba = request.args.get(
-        "bomba",
-        ""
-    ).strip()
-
-    consulta = Mantenimiento.query
-
-    if bomba:
-        consulta = consulta.filter_by(
-            bomba=bomba
-        )
-
-    registros = consulta.order_by(
-        Mantenimiento.id.desc()
-    ).all()
-
-    return render_template(
-        "historial.html",
-        registros=registros
-    )
-
-
-# Eliminar un mantenimiento
-@app.route(
-    "/eliminar/<int:registro_id>",
-    methods=["POST"]
-)
-def eliminar_mantenimiento(registro_id):
-
-    registro = db.session.get(
-        Mantenimiento,
-        registro_id
-    )
-
-    if registro is None:
-        return redirect("/historial")
-
-    try:
-        db.session.delete(registro)
-        db.session.commit()
-
-    except Exception:
-        db.session.rollback()
-
-        app.logger.exception(
-            "Error al eliminar el mantenimiento"
-        )
-
-        return (
-            "No se pudo eliminar el mantenimiento.",
-            500
-        )
-
-    return redirect("/historial")
-
-
-# Dashboard ejecutivo
-@app.route("/dashboard")
-def dashboard():
-
-    # Total de mantenimientos
-    total = Mantenimiento.query.count()
-
-    # Costo total acumulado
-    costo_total = db.session.query(
-        db.func.sum(Mantenimiento.costo)
-    ).scalar()
-
-    if costo_total is None:
-        costo_total = 0.0
-
-    # Costo promedio por mantenimiento
-    costo_promedio = db.session.query(
-        db.func.avg(Mantenimiento.costo)
-    ).scalar()
-
-    if costo_promedio is None:
-        costo_promedio = 0.0
-
-    # Cantidad de bombas diferentes intervenidas
-    bombas_intervenidas = db.session.query(
-        db.func.count(
-            db.distinct(Mantenimiento.bomba)
-        )
-    ).scalar()
-
-    if bombas_intervenidas is None:
-        bombas_intervenidas = 0
-
-    # Ranking de bombas:
-    # cantidad de mantenimientos y costo acumulado
-    ranking_consulta = db.session.query(
-        Mantenimiento.bomba.label("bomba"),
-        db.func.count(
-            Mantenimiento.id
-        ).label("cantidad"),
-        db.func.sum(
-            Mantenimiento.costo
-        ).label("costo_acumulado")
-    ).group_by(
-        Mantenimiento.bomba
-    ).order_by(
-        db.func.count(
-            Mantenimiento.id
-        ).desc(),
-        Mantenimiento.bomba.asc()
-    ).all()
-
-    # Convertir el ranking en una lista sencilla
-    ranking = []
-
-    for fila in ranking_consulta:
-        ranking.append({
-            "bomba": fila.bomba,
-            "cantidad": int(
-                fila.cantidad or 0
-            ),
-            "costo_acumulado": float(
-                fila.costo_acumulado or 0
-            )
-        })
-
-    # Determinar la bomba con más intervenciones
-    if ranking:
-        bomba_critica = ranking[0]["bomba"]
-        mayor_cantidad = ranking[0]["cantidad"]
-
-    else:
-        bomba_critica = "Sin datos"
-        mayor_cantidad = 0
-
-    # Último mantenimiento registrado
-    ultimo_mantenimiento = Mantenimiento.query.order_by(
-        Mantenimiento.id.desc()
-    ).first()
-
-    # Ranking de componentes
-    componentes_consulta = db.session.query(
-        Mantenimiento.componente.label(
-            "componente"
-        ),
-        db.func.count(
-            Mantenimiento.id
-        ).label("cantidad"),
-        db.func.sum(
-            Mantenimiento.costo
-        ).label("costo_acumulado")
-    ).group_by(
-        Mantenimiento.componente
-    ).order_by(
-        db.func.count(
-            Mantenimiento.id
-        ).desc(),
-        Mantenimiento.componente.asc()
-    ).all()
-
-    ranking_componentes = []
-
-    for fila in componentes_consulta:
-        ranking_componentes.append({
-            "componente": fila.componente,
-            "cantidad": int(
-                fila.cantidad or 0
-            ),
-            "costo_acumulado": float(
-                fila.costo_acumulado or 0
-            )
-        })
-
-    return render_template(
-        "dashboard.html",
-        total=int(total or 0),
-        costo_total=float(
-            costo_total or 0
-        ),
-        costo_promedio=float(
-            costo_promedio or 0
-        ),
-        bombas_intervenidas=int(
-            bombas_intervenidas or 0
-        ),
-        ranking=ranking,
-        bomba_critica=bomba_critica,
-        mayor_cantidad=int(
-            mayor_cantidad or 0
-        ),
-        ultimo_mantenimiento=ultimo_mantenimiento,
-
-        # Se envía con ambos nombres para que funcione
-        # con cualquiera de las versiones del dashboard.
-        componentes=ranking_componentes,
-        ranking_componentes=ranking_componentes
-    )
-
-
-if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=int(
-            os.environ.get(
-                "PORT",
-                5000
-            )
-        )
-    )
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SGM Bombas SVE</title>
+
+    /static/css/style.css
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f4ef;
+        }
+
+        .inicio-app {
+            position: relative;
+            display: grid;
+            grid-template-columns: 47% 53%;
+            min-height: 100vh;
+            overflow: hidden;
+            background: #faf8f4;
+        }
+
+        /* Círculo bordó superior */
+
+        .inicio-app::before {
+            content: "";
+            position: absolute;
+            z-index: 4;
+            top: -230px;
+            right: -170px;
+            width: 500px;
+            height: 360px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #771052,
+                    #4e0639
+                );
+            border-radius: 50%;
+            transform: rotate(14deg);
+            pointer-events: none;
+        }
+
+        /* Círculo bordó inferior */
+
+        .inicio-app::after {
+            content: "";
+            position: absolute;
+            z-index: 4;
+            bottom: -470px;
+            left: -350px;
+            width: 760px;
+            height: 680px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #4e0639,
+                    #771052
+                );
+            border: 14px solid #dfbedb;
+            border-radius: 50%;
+            transform: rotate(-15deg);
+            pointer-events: none;
+        }
+
+        /* Columna izquierda */
+
+        .panel-principal {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 65px 45px 120px max(45px, 8vw);
+        }
+
+        .etiqueta-sistema {
+            align-self: flex-start;
+            margin-bottom: 22px;
+            padding: 7px 14px;
+            color: white;
+            background: #6b123c;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .logo-principal {
+            display: block;
+            width: min(340px, 85%);
+            height: auto;
+            margin-bottom: 20px;
+            object-fit: contain;
+            object-position: left center;
+        }
+
+        .descripcion-principal {
+            max-width: 540px;
+            margin: 0;
+            color: #624957;
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        /* Botones */
+
+        .menu-principal {
+            display: grid;
+            gap: 14px;
+            width: min(570px, 100%);
+            margin-top: 38px;
+        }
+
+        .boton-menu {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            width: 100%;
+            min-height: 92px;
+            padding: 16px 20px;
+            color: #5b0a43;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(91, 10, 67, 0.16);
+            border-radius: 18px;
+            box-shadow: 0 12px 30px rgba(70, 15, 52, 0.13);
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .boton-menu:hover {
+            color: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    #771052,
+                    #4e0639
+                );
+            transform: translateX(7px);
+            box-shadow: 0 18px 38px rgba(70, 15, 52, 0.25);
+        }
+
+        .boton-icono {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            background: #f0dced;
+            border-radius: 50%;
+            font-size: 28px;
+        }
+
+        .boton-menu:hover .boton-icono {
+            background: rgba(255, 255, 255, 0.17);
+        }
+
+        .boton-texto {
+            display: block;
+        }
+
+        .boton-texto strong {
+            display: block;
+            font-size: 17px;
+            line-height: 1.2;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+
+        .boton-texto small {
+            display: block;
+            margin-top: 5px;
+            font-size: 13px;
+            opacity: 0.72;
+        }
+
+        /* Columna derecha con la fotografía */
+
+        .panel-imagen {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            overflow: hidden;
+            background-color: #f7f3ef;
+        }
+
+        .panel-imagen::before {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            inset: 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    #faf8f4 0%,
+                    rgba(250, 248, 244, 0.48) 12%,
+                    rgba(250, 248, 244, 0.04) 33%,
+                    rgba(250, 248, 244, 0) 100%
+                );
+            pointer-events: none;
+        }
+
+        .imagen-bombas {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            object-position: center center;
+            display: block;
+        }
+
+        /* Beneficios inferiores */
+
+        .beneficios {
+            position: absolute;
+            z-index: 6;
+            left: 50%;
+            bottom: 16px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: min(920px, 70%);
+            transform: translateX(-50%);
+        }
+
+        .beneficio {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            min-height: 52px;
+            padding: 10px 14px;
+            color: white;
+            background: rgba(82, 7, 60, 0.87);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            backdrop-filter: blur(8px);
+        }
+
+        /* Tablet */
+
+        @media (max-width: 950px) {
+            .inicio-app {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-principal {
+                min-height: auto;
+                padding:
+                    60px
+                    max(28px, 7vw)
+                    40px;
+                background: rgba(250, 248, 244, 0.93);
+            }
+
+            .logo-principal {
+                width: min(300px, 80%);
+            }
+
+            .menu-principal {
+                width: 100%;
+            }
+
+            .panel-imagen {
+                min-height: 520px;
+            }
+
+            .imagen-bombas {
+                height: 520px;
+                object-position: center center;
+            }
+
+            .panel-imagen::before {
+                background:
+                    linear-gradient(
+                        180deg,
+                        #faf8f4 0%,
+                        rgba(250, 248, 244, 0.20) 20%,
+                        rgba(250, 248, 244, 0) 45%
+                    );
+            }
+
+            .beneficios {
+                position: relative;
+                left: auto;
+                bottom: auto;
+                grid-template-columns: 1fr;
+                width: auto;
+                padding: 14px 20px 25px;
+                background: #4e0639;
+                transform: none;
+            }
+        }
+
+        /* Celular */
+
+        @media (max-width: 600px) {
+            .panel-principal {
+                padding: 48px 20px 32px;
+            }
+
+            .inicio-app::before {
+                top: -270px;
+                right: -270px;
+            }
+
+            .inicio-app::after {
+                display: none;
+            }
+
+            .logo-principal {
+                width: min(270px, 86%);
+            }
+
+            .descripcion-principal {
+                font-size: 15px;
+            }
+
+            .boton-menu {
+                min-height: 82px;
+                padding: 13px 15px;
+            }
+
+            .boton-icono {
+                width: 54px;
+                height: 54px;
+                font-size: 25px;
+            }
+
+            .boton-texto strong {
+                font-size: 15px;
+            }
+
+            .panel-imagen {
+                min-height: 415px;
+            }
+
+            .imagen-bombas {
+                height: 415px;
+                object-position: 60% center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="inicio-app">
+
+        <!-- Panel izquierdo -->
+        <section class="panel-principal">
+
+            <span class="etiqueta-sistema">
+                SISTEMA SVE
+            </span>
+
+            /static/img/logo_sve.png
+
+            <p class="descripcion-principal">
+                Sistema de registro y seguimiento de mantenimientos
+                para las bombas C1 a C23.
+            </p>
+
+            <nav class="menu-principal">
+
+                /nuevo
+                 
