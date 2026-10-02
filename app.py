@@ -22,6 +22,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 
 db = SQLAlchemy(app)
 
+# Modelo de la Base de Datos
 class Mantenimiento(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha = db.Column(db.String(20), nullable=False)
@@ -47,7 +48,7 @@ def nuevo():
             costo = float(costo_texto) if costo_texto else 0.0
         except ValueError:
             costo = 0.0
-
+        
         nuevo_registro = Mantenimiento(
             fecha=request.form.get("fecha", "").strip(),
             bomba=request.form.get("bomba", "").strip(),
@@ -64,15 +65,17 @@ def nuevo():
         except Exception as e:
             db.session.rollback()
             return f"Error al guardar en la base de datos: {e}", 500
-
+            
     return render_template("registro.html")
 
 @app.route("/historial")
 def historial():
     bomba = request.args.get("bomba", "").strip()
     consulta = Mantenimiento.query
+    
     if bomba:
         consulta = consulta.filter_by(bomba=bomba)
+        
     registros = consulta.order_by(Mantenimiento.id.desc()).all()
     return render_template("historial.html", registros=registros)
 
@@ -80,12 +83,11 @@ def historial():
 def dashboard():
     total = Mantenimiento.query.count()
     costo_total = db.session.query(db.func.sum(Mantenimiento.costo)).scalar()
+    
     if costo_total is None:
         costo_total = 0.0
+        
     return render_template("dashboard.html", total=total, costo_total=costo_total)
 
 if __name__ == "__main__":
-    app.run(
-        host="0.0.0.0",
-        port=int(os.environ.get("PORT", 5000))
-    )
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
