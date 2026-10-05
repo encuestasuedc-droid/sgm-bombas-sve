@@ -1,192 +1,390 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>SGM Bombas SVE</title>
+
+    /static/css/style.css
+
     <style>
-        * { 
-            box-sizing: border-box; 
+        * {
+            box-sizing: border-box;
         }
-        html, body { 
-            margin: 0; 
-            min-height: 100%; 
+
+        html,
+        body {
+            margin: 0;
+            min-height: 100%;
         }
-        body { 
-            font-family: Arial, Helvetica, sans-serif; 
-            background-color: #f5f0eb; 
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f5f0eb;
         }
+
         /* Pantalla principal con la imagen como fondo */
-        .inicio-fondo { 
-            position: relative; 
-            display: flex; 
-            align-items: center; 
-            min-height: 100vh; 
-            padding: 50px 7%; 
-            overflow: hidden; 
-            background-image: linear-gradient(
-                90deg, 
-                rgba(250, 248, 244, 0.98) 0%, 
-                rgba(250, 248, 244, 0.93) 32%, 
-                rgba(250, 248, 244, 0.66) 55%, 
-                rgba(250, 248, 244, 0.14) 80%, 
-                rgba(250, 248, 244, 0.02) 100%
-            ), url("/static/img/bombas_sve.png"); 
-            background-repeat: no-repeat; 
-            background-position: center center; 
-            background-size: cover; 
+
+        .inicio-fondo {
+            position: relative;
+            display: flex;
+            align-items: center;
+            min-height: 100vh;
+            padding: 50px 7%;
+            overflow: hidden;
+
+            background-image:
+                linear-gradient(
+                    90deg,
+                    rgba(250, 248, 244, 0.98) 0%,
+                    rgba(250, 248, 244, 0.93) 32%,
+                    rgba(250, 248, 244, 0.66) 55%,
+                    rgba(250, 248, 244, 0.14) 80%,
+                    rgba(250, 248, 244, 0.02) 100%
+                ),
+                url("/static/img/bombas_sve.png");
+
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: cover;
         }
+
         /* Curva decorativa superior */
-        .inicio-fondo::before { 
-            content: ""; 
-            position: absolute; 
-            top: -255px; 
-            right: -210px; 
-            width: 580px; 
-            height: 420px; 
-            background: linear-gradient(135deg, #7b1057, #4d0639); 
-            border-radius: 50%; 
-            transform: rotate(13deg); 
-            pointer-events: none; 
+
+        .inicio-fondo::before {
+            content: "";
+            position: absolute;
+            top: -255px;
+            right: -210px;
+            width: 580px;
+            height: 420px;
+
+            background: linear-gradient(
+                135deg,
+                #7b1057,
+                #4d0639
+            );
+
+            border-radius: 50%;
+            transform: rotate(13deg);
+            pointer-events: none;
         }
+
         /* Curva decorativa inferior */
-        .inicio-fondo::after { 
-            content: ""; 
-            position: absolute; 
-            bottom: -520px; 
-            left: -390px; 
-            width: 820px; 
-            height: 730px; 
-            background: linear-gradient(145deg, #4d0639, #791054); 
-            border: 14px solid rgba(223, 190, 219, 0.85); 
-            border-radius: 50%; 
-            transform: rotate(-14deg); 
-            pointer-events: none; 
+
+        .inicio-fondo::after {
+            content: "";
+            position: absolute;
+            bottom: -520px;
+            left: -390px;
+            width: 820px;
+            height: 730px;
+
+            background: linear-gradient(
+                145deg,
+                #4d0639,
+                #791054
+            );
+
+            border: 14px solid rgba(223, 190, 219, 0.85);
+            border-radius: 50%;
+            transform: rotate(-14deg);
+            pointer-events: none;
         }
+
         /* Contenido de la portada */
-        .inicio-contenido { 
-            position: relative; 
-            z-index: 2; 
-            width: min(590px, 100%); 
+
+        .inicio-contenido {
+            position: relative;
+            z-index: 2;
+            width: min(590px, 100%);
         }
-        .etiqueta-sistema { 
-            display: inline-block; 
-            margin-bottom: 18px; 
-            padding: 7px 14px; 
-            color: white; 
-            background-color: #6b123c; 
-            border-radius: 30px; 
-            font-size: 11px; 
-            font-weight: bold; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
+
+        .etiqueta-sistema {
+            display: inline-block;
+            margin-bottom: 18px;
+            padding: 7px 14px;
+
+            color: white;
+            background-color: #6b123c;
+            border-radius: 30px;
+
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
-        .titulo-principal { 
-            margin: 0; 
-            color: #590744; 
-            font-size: clamp(42px, 5.5vw, 70px); 
-            line-height: 0.98; 
-            letter-spacing: -2px; 
+
+        .titulo-principal {
+            margin: 0;
+
+            color: #590744;
+
+            font-size: clamp(42px, 5.5vw, 70px);
+            line-height: 0.98;
+            letter-spacing: -2px;
         }
-        .titulo-principal span { 
-            display: block; 
-            font-weight: 900; 
+
+        .titulo-principal span {
+            display: block;
+            font-weight: 900;
         }
-        .descripcion { 
-            max-width: 520px; 
-            margin: 20px 0 30px; 
-            color: #624957; 
-            font-size: 17px; 
-            line-height: 1.6; 
+
+        .descripcion {
+            max-width: 520px;
+            margin: 20px 0 30px;
+
+            color: #624957;
+
+            font-size: 17px;
+            line-height: 1.6;
         }
+
         /* Tarjeta del menú */
-        .menu-card { 
-            padding: 22px; 
-            background: rgba(255, 255, 255, 0.91); 
-            border: 1px solid rgba(89, 7, 68, 0.14); 
-            border-radius: 22px; 
-            box-shadow: 0 18px 42px rgba(70, 15, 52, 0.17); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px); 
+
+        .menu-card {
+            padding: 22px;
+
+            background: rgba(255, 255, 255, 0.91);
+            border: 1px solid rgba(89, 7, 68, 0.14);
+            border-radius: 22px;
+
+            box-shadow: 0 18px 42px rgba(70, 15, 52, 0.17);
+
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
         }
-        .menu-card h2 { 
-            margin: 0 0 18px; 
-            color: #590744; 
-            font-size: 23px; 
+
+        .menu-card h2 {
+            margin: 0 0 18px;
+
+            color: #590744;
+
+            font-size: 23px;
         }
-        .menu-links { 
-            display: grid; 
-            gap: 13px; 
+
+        .menu-links {
+            display: grid;
+            gap: 13px;
         }
+
         /* Enlaces completos y funcionales */
-        .menu-links a { 
-            display: flex; 
-            align-items: center; 
-            gap: 16px; 
-            min-height: 82px; 
-            padding: 14px 17px; 
-            color: #590744; 
-            text-decoration: none; 
-            background: rgba(255, 255, 255, 0.96); 
-            border: 1px solid rgba(89, 7, 68, 0.15); 
-            border-radius: 16px; 
-            box-shadow: 0 8px 22px rgba(70, 15, 52, 0.09); 
-            transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease; 
+
+        .menu-links a {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+
+            min-height: 82px;
+            padding: 14px 17px;
+
+            color: #590744;
+            text-decoration: none;
+
+            background: rgba(255, 255, 255, 0.96);
+            border: 1px solid rgba(89, 7, 68, 0.15);
+            border-radius: 16px;
+
+            box-shadow: 0 8px 22px rgba(70, 15, 52, 0.09);
+
+            transition:
+                transform 0.2s ease,
+                color 0.2s ease,
+                background 0.2s ease,
+                box-shadow 0.2s ease;
         }
-        .menu-links a:hover { 
-            color: white; 
-            background: linear-gradient(135deg, #771052, #4e0639); 
-            transform: translateX(6px); 
-            box-shadow: 0 14px 30px rgba(70, 15, 52, 0.23); 
+
+        .menu-links a:hover {
+            color: white;
+
+            background: linear-gradient(
+                135deg,
+                #771052,
+                #4e0639
+            );
+
+            transform: translateX(6px);
+
+            box-shadow: 0 14px 30px rgba(70, 15, 52, 0.23);
         }
-        /* Estilos añadidos para corregir el corte de código */
+
         .menu-icono {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            width: 45px;
-            height: 45px;
-            background: rgba(89, 7, 68, 0.08);
-            border-radius: 12px;
-            transition: background 0.2s ease;
+            flex-shrink: 0;
+
+            width: 54px;
+            height: 54px;
+
+            background: #f0dced;
+            border-radius: 50%;
+
+            font-size: 25px;
         }
+
         .menu-links a:hover .menu-icono {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.18);
         }
+
         .menu-texto {
+            display: block;
+        }
+
+        .menu-texto strong {
+            display: block;
+
             font-size: 16px;
-            font-weight: 600;
+            line-height: 1.2;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
+        .menu-texto small {
+            display: block;
+            margin-top: 5px;
+
+            font-size: 13px;
+            line-height: 1.3;
+
+            opacity: 0.75;
+        }
+
+        /* Tablet */
+
+        @media (max-width: 900px) {
+            .inicio-fondo {
+                align-items: flex-start;
+                padding: 45px 6% 380px;
+
+                background-image:
+                    linear-gradient(
+                        180deg,
+                        rgba(250, 248, 244, 0.96) 0%,
+                        rgba(250, 248, 244, 0.88) 50%,
+                        rgba(250, 248, 244, 0.12) 78%,
+                        rgba(250, 248, 244, 0) 100%
+                    ),
+                    url("/static/img/bombas_sve.png");
+
+                background-position: center center;
+            }
+
+            .inicio-contenido {
+                width: 100%;
+            }
+        }
+
+        /* Celular */
+
+        @media (max-width: 600px) {
+            .inicio-fondo {
+                padding: 35px 18px 310px;
+                background-position: 62% center;
+            }
+
+            .inicio-fondo::before {
+                top: -305px;
+                right: -310px;
+            }
+
+            .inicio-fondo::after {
+                display: none;
+            }
+
+            .titulo-principal {
+                font-size: 39px;
+            }
+
+            .descripcion {
+                font-size: 15px;
+            }
+
+            .menu-card {
+                padding: 15px;
+            }
+
+            .menu-links a {
+                min-height: 76px;
+                padding: 12px 13px;
+            }
+
+            .menu-icono {
+                width: 50px;
+                height: 50px;
+                font-size: 23px;
+            }
+
+            .menu-texto strong {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <main class="inicio-fondo">
-        <div class="inicio-contenido">
-            <span class="etiqueta-sistema">Sistema SGM</span>
-            <h1 class="titulo-principal">Bombas <span>SVE</span></h1>
-            <p class="descripcion">Plataforma de gestión, monitoreo y mantenimiento técnico para sistemas de bombeo SVE.</p>
-            
-            <nav class="menu-card">
-                <h2>Panel de Control</h2>
-                <div class="menu-links">
-                    <a href="/monitoreo">
-                        <span class="menu-icono">📊</span>
-                        <span class="menu-texto">Monitoreo en Tiempo Real</span>
-                    </a>
-                    <a href="/mantenimiento">
+
+        <section class="inicio-contenido">
+
+            <span class="etiqueta-sistema">
+                Sistema de gestión
+            </span>
+
+            <h1 class="titulo-principal">
+                SGM
+                <span>Bombas SVE</span>
+            </h1>
+
+            <p class="descripcion">
+                Sistema de registro y seguimiento de mantenimientos
+                para las bombas C1 a C23.
+            </p>
+
+            <div class="menu-card">
+
+                <h2>Menú principal</h2>
+
+                <nav class="menu-links">
+
+                    /nuevo
                         <span class="menu-icono">🔧</span>
-                        <span class="menu-texto">Órdenes de Mantenimiento</span>
+
+                        <span class="menu-texto">
+                            <strong>Registrar mantenimiento</strong>
+                            <small>Cargar una nueva reparación</small>
+                        </span>
                     </a>
-                    <a href="/reportes">
+
+                    /historial
                         <span class="menu-icono">📋</span>
-                        <span class="menu-texto">Historial y Reportes</span>
+
+                        <span class="menu-texto">
+                            <strong>Historial</strong>
+                            <small>Consultar mantenimientos registrados</small>
+                        </span>
                     </a>
-                </div>
-            </nav>
-        </div>
+
+                    /dashboard
+                        <span class="menu-icono">📊</span>
+
+                        <span class="menu-texto">
+                            <strong>Dashboard</strong>
+                            <small>Ver indicadores, costos y ranking</small>
+                        </span>
+                    </a>
+
+                </nav>
+
+            </div>
+
+        </section>
+
     </main>
 
 </body>
+
 </html>
