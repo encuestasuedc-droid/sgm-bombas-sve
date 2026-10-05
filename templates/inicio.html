@@ -3,307 +3,46 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>SGM Bombas SVE</title>
 
     /static/css/style.css
+</head>
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+<body>
 
-        html,
-        body {
-            margin: 0;
-            min-height: 100%;
-        }
+    <header>
+        <h1>🍷 SGM Bombas SVE</h1>
+        <p>Sistema de Gestión de Mantenimiento</p>
+    </header>
 
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: #f7f4ef;
-        }
+    <div class="container">
 
-        .inicio-pantalla {
-            display: grid;
-            grid-template-columns: 48% 52%;
-            min-height: 100vh;
-            background-color: #faf8f4;
-        }
+        <div class="card">
 
-        /* Panel izquierdo */
+            <h2>Menú principal</h2>
 
-        .inicio-contenido {
-            position: relative;
-            z-index: 2;
+            <div class="menu-links">
 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+                /nuevo
+                    🛠 Registrar mantenimiento
+                </a>
 
-            padding: 55px 6vw 80px;
-            overflow: hidden;
+                /historial
+                    📋 Historial
+                </a>
 
-            background:
-                radial-gradient(
-                    circle at 5% 10%,
-                    rgba(223, 190, 219, 0.35),
-                    transparent 34%
-                ),
-                #faf8f4;
-        }
+                /dashboard
+                    📊 Dashboard
+                </a>
 
-        .inicio-contenido::after {
-            content: "";
-            position: absolute;
-            z-index: -1;
+            </div>
 
-            left: -340px;
-            bottom: -535px;
+        </div>
 
-            width: 750px;
-            height: 680px;
+    </div>
 
-            background:
-                linear-gradient(
-                    145deg,
-                    #4d0639,
-                    #771052
-                );
+</body>
 
-            border: 14px solid #dfbedb;
-            border-radius: 50%;
-
-            transform: rotate(-15deg);
-            pointer-events: none;
-        }
-
-        /* Logo SVE */
-
-        .logo-sve {
-            display: block;
-
-            width: min(350px, 88%);
-            height: auto;
-
-            margin-bottom: 25px;
-
-            object-fit: contain;
-            object-position: left center;
-        }
-
-        .descripcion {
-            max-width: 540px;
-
-            margin: 0 0 34px;
-
-            color: #624957;
-
-            font-size: 17px;
-            line-height: 1.6;
-        }
-
-        /* Tarjeta del menú */
-
-        .card-menu {
-            position: relative;
-            z-index: 5;
-
-            width: min(570px, 100%);
-            padding: 22px;
-
-            background-color: rgba(255, 255, 255, 0.94);
-
-            border: 1px solid rgba(89, 7, 68, 0.13);
-            border-radius: 22px;
-
-            box-shadow:
-                0 16px 38px rgba(70, 15, 52, 0.13);
-
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        .card-menu h2 {
-            margin: 0 0 18px;
-
-            color: #590744;
-
-            font-size: 24px;
-        }
-
-        /* Enlaces del menú */
-
-        .menu-links {
-            display: grid;
-            gap: 14px;
-        }
-
-        .menu-links a {
-            display: flex;
-            align-items: center;
-            gap: 17px;
-
-            width: 100%;
-            min-height: 88px;
-
-            padding: 15px 18px;
-
-            color: #590744;
-            text-decoration: none;
-
-            background-color: #ffffff;
-
-            border: 1px solid rgba(89, 7, 68, 0.15);
-            border-radius: 17px;
-
-            box-shadow:
-                0 9px 24px rgba(70, 15, 52, 0.10);
-
-            cursor: pointer;
-
-            transition:
-                transform 0.20s ease,
-                color 0.20s ease,
-                background 0.20s ease,
-                box-shadow 0.20s ease;
-        }
-
-        .menu-links a:hover {
-            color: #ffffff;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #771052,
-                    #4e0639
-                );
-
-            transform: translateX(6px);
-
-            box-shadow:
-                0 15px 32px rgba(70, 15, 52, 0.24);
-        }
-
-        .menu-icono {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-
-            width: 58px;
-            height: 58px;
-
-            background-color: #f0dced;
-            border-radius: 50%;
-
-            font-size: 27px;
-        }
-
-        .menu-links a:hover .menu-icono {
-            background-color: rgba(255, 255, 255, 0.18);
-        }
-
-        .menu-texto {
-            display: block;
-        }
-
-        .menu-texto strong {
-            display: block;
-
-            font-size: 16px;
-            line-height: 1.2;
-            letter-spacing: 0.4px;
-            text-transform: uppercase;
-        }
-
-        .menu-texto small {
-            display: block;
-
-            margin-top: 5px;
-
-            font-size: 13px;
-            line-height: 1.3;
-
-            opacity: 0.72;
-        }
-
-        /* Panel derecho */
-
-        .inicio-imagen {
-            position: relative;
-
-            min-height: 100vh;
-            overflow: hidden;
-
-            background-color: #eee8e4;
-        }
-
-        .inicio-imagen::before {
-            content: "";
-
-            position: absolute;
-            z-index: 2;
-            inset: 0;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    #faf8f4 0%,
-                    rgba(250, 248, 244, 0.38) 10%,
-                    rgba(250, 248, 244, 0.04) 27%,
-                    rgba(250, 248, 244, 0) 44%
-                );
-
-            pointer-events: none;
-        }
-
-        .inicio-imagen::after {
-            content: "";
-
-            position: absolute;
-            z-index: 3;
-
-            top: -245px;
-            right: -195px;
-
-            width: 520px;
-            height: 390px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #771052,
-                    #4e0639
-                );
-
-            border-radius: 50%;
-
-            transform: rotate(14deg);
-            pointer-events: none;
-        }
-
-        .foto-bombas {
-            display: block;
-
-            width: 100%;
-            height: 100vh;
-
-            object-fit: cover;
-            object-position: center center;
-        }
-
-        /* Tablet */
-
-        @media (max-width: 950px) {
-            .inicio-pantalla {
-                grid-template-columns: 1fr;
-            }
-
-            .inicio-contenido {
-                min-height
+</html>
