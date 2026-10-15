@@ -1,58 +1,302 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Registrar Mantenimiento</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    {{ url_for('static', filename='css/style.css') }}
 </head>
+
 <body>
+
     <header>
         <h1>🛠 Registrar Mantenimiento</h1>
         <p>SGM Bombas SVE</p>
     </header>
 
     <div class="container">
+
         <div class="card de-navegacion">
-            <a href="/">🏠 Menú principal</a>
-            <a href="/historial">📋 Ver historial</a>
+
+            /
+                🏠 Menú principal
+            </a>
+
+            /historial
+                📋 Ver historial
+            </a>
+
         </div>
 
         <div class="card">
+
             <form method="POST">
-                <label><b>📅 Fecha</b></label>
-                <input type="date" name="fecha" required>
 
-                <label><b>🔧 Bomba</b></label>
+                <label>
+                    <b>📅 Fecha</b>
+                </label>
+
+                <input
+                    type="date"
+                    name="fecha"
+                    required
+                >
+
+                <label>
+                    <b>🔧 Bomba</b>
+                </label>
+
                 <select name="bomba" required>
+
                     {% for i in range(1, 24) %}
-                    <option value="C{{ i }}">C{{ i }}</option>
+
+                        <option value="C{{ i }}">
+                            C{{ i }}
+                        </option>
+
                     {% endfor %}
+
                 </select>
 
-                <label><b>⚙️ Componente roto</b></label>
-                <select name="componente" required>
-                    <option value="Comando eléctrico">Comando eléctrico</option>
-                    <option value="Cable y enchufe">Cable y enchufe</option>
-                    <option value="Motor">Motor</option>
-                    <option value="Turbina">Turbina</option>
-                    <option value="Cabezal">Cabezal</option>
-                    <option value="Rulemán">Rulemán</option>
-                    <option value="Estopada">Estopada</option>
-                    <option value="Pintado">Pintado</option>
-                    <option value="Ruedas">Ruedas</option>
+                <!-- Componente roto 1 -->
+
+                <label>
+                    <b>⚙️ Componente roto 1</b>
+                </label>
+
+                <select name="componente1">
+
+                    <option value="">
+                        Sin seleccionar
+                    </option>
+
+                    <option value="Comando eléctrico">
+                        Comando eléctrico
+                    </option>
+
+                    <option value="Cable y enchufe">
+                        Cable y enchufe
+                    </option>
+
+                    <option value="Motor">
+                        Motor
+                    </option>
+
+                    <option value="Turbina">
+                        Turbina
+                    </option>
+
+                    <option value="Cabezal">
+                        Cabezal
+                    </option>
+
+                    <option value="Rulemán">
+                        Rulemán
+                    </option>
+
+                    <option value="Estopada">
+                        Estopada
+                    </option>
+
+                    <option value="Pintado">
+                        Pintado
+                    </option>
+
+                    <option value="Ruedas">
+                        Ruedas
+                    </option>
+
                 </select>
 
-                <label><b>👤 Responsable</b></label>
-                <input type="text" name="responsable" placeholder="Nombre del responsable">
+                <!-- Componente roto 2 -->
 
-                <label><b>💰 Costo ($)</b></label>
-                <input type="number" name="costo" min="0" step="0.01" placeholder="Ingrese el costo" required>
+                <label>
+                    <b>⚙️ Componente roto 2</b>
+                </label>
 
-                <!-- Botón para enviar el formulario -->
-                <button type="submit" class="btn-enviar">Guardar Registro</button>
+                <select name="componente2">
+
+                    <option value="">
+                        Sin seleccionar
+                    </option>
+
+                    <option value="Comando eléctrico">
+                        Comando eléctrico
+                    </option>
+
+                    <option value="Cable y enchufe">
+                        Cable y enchufe
+                    </option>
+
+                    <option value="Motor">
+                        Motor
+                    </option>
+
+                    <option value="Turbina">
+                        Turbina
+                    </option>
+
+                    <option value="Cabezal">
+                        Cabezal
+                    </option>
+
+                    <option value="Rulemán">
+                        Rulemán
+                    </option>
+
+                    <option value="Estopada">
+                        Estopada
+                    </option>
+
+                    <option value="Pintado">
+                        Pintado
+                    </option>
+
+                    <option value="Ruedas">
+                        Ruedas
+                    </option>
+
+                </select>
+
+                <!-- Componente roto 3 -->
+
+                <label>
+                    <b>⚙️ Componente roto 3</b>
+                </label>
+
+                <select name="componente3">
+
+                    <option value="">
+                        Sin seleccionar
+                    </option>
+
+                    <option value="Comando eléctrico">
+                        Comando eléctrico
+                    </option>
+
+                    <option value="Cable y enchufe">
+                        Cable y enchufe
+                    </option>
+
+                    <option value="Motor">
+                        Motor
+                    </option>
+
+                    <option value="Turbina">
+                        Turbina
+                    </option>
+
+                    <option value="Cabezal">
+                        Cabezal
+                    </option>
+
+                    <option value="Rulemán">
+                        Rulemán
+                    </option>
+
+                    <option value="Estopada">
+                        Estopada
+                    </option>
+
+                    <option value="Pintado">
+                        Pintado
+                    </option>
+
+                    <option value="Ruedas">
+                        Ruedas
+                    </option>
+
+                </select>
+
+                <!-- Componente roto 4 -->
+
+                <label>
+                    <b>⚙️ Componente roto 4</b>
+                </label>
+
+                <select name="componente4">
+
+                    <option value="">
+                        Sin seleccionar
+                    </option>
+
+                    <option value="Comando eléctrico">
+                        Comando eléctrico
+                    </option>
+
+                    <option value="Cable y enchufe">
+                        Cable y enchufe
+                    </option>
+
+                    <option value="Motor">
+                        Motor
+                    </option>
+
+                    <option value="Turbina">
+                        Turbina
+                    </option>
+
+                    <option value="Cabezal">
+                        Cabezal
+                    </option>
+
+                    <option value="Rulemán">
+                        Rulemán
+                    </option>
+
+                    <option value="Estopada">
+                        Estopada
+                    </option>
+
+                    <option value="Pintado">
+                        Pintado
+                    </option>
+
+                    <option value="Ruedas">
+                        Ruedas
+                    </option>
+
+                </select>
+
+                <label>
+                    <b>👤 Responsable</b>
+                </label>
+
+                <input
+                    type="text"
+                    name="responsable"
+                    placeholder="Nombre del responsable"
+                >
+
+                <label>
+                    <b>💰 Costo ($)</b>
+                </label>
+
+                <input
+                    type="number"
+                    name="costo"
+                    min="0"
+                    step="0.01"
+                    placeholder="Ingrese el costo"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn-enviar"
+                >
+                    Guardar Registro
+                </button>
+
             </form>
+
         </div>
+
     </div>
+
 </body>
+
 </html>
