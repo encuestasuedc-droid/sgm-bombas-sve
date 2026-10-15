@@ -1,302 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Registrar Mantenimiento</title>
-
-    {{ url_for('static', filename='css/style.css') }}
+    <!-- CORREGIDO: Se agregó la etiqueta <link> correcta para el CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
 </head>
-
 <body>
-
     <header>
         <h1>🛠 Registrar Mantenimiento</h1>
         <p>SGM Bombas SVE</p>
     </header>
-
+    
     <div class="container">
-
+        <!-- Navegación -->
+        <!-- CORREGIDO: Se completaron las etiquetas de apertura <a> que faltaban -->
         <div class="card de-navegacion">
-
-            /
-                🏠 Menú principal
-            </a>
-
-            /historial
-                📋 Ver historial
-            </a>
-
+            <a href="/">🏠 Menú principal</a>
+            <a href="/historial">📋 Ver historial</a>
         </div>
 
+        <!-- Formulario -->
         <div class="card">
-
             <form method="POST">
+                <label for="fecha"><b>📅 Fecha</b></label>
+                <input type="date" id="fecha" name="fecha" required>
 
-                <label>
-                    <b>📅 Fecha</b>
-                </label>
-
-                <input
-                    type="date"
-                    name="fecha"
-                    required
-                >
-
-                <label>
-                    <b>🔧 Bomba</b>
-                </label>
-
-                <select name="bomba" required>
-
+                <label for="bomba"><b>🔧 Bomba</b></label>
+                <select id="bomba" name="bomba" required>
                     {% for i in range(1, 24) %}
-
-                        <option value="C{{ i }}">
-                            C{{ i }}
-                        </option>
-
+                    <option value="C{{ i }}">C{{ i }}</option>
                     {% endfor %}
-
                 </select>
 
-                <!-- Componente roto 1 -->
-
-                <label>
-                    <b>⚙️ Componente roto 1</b>
-                </label>
-
-                <select name="componente1">
-
-                    <option value="">
-                        Sin seleccionar
-                    </option>
-
-                    <option value="Comando eléctrico">
-                        Comando eléctrico
-                    </option>
-
-                    <option value="Cable y enchufe">
-                        Cable y enchufe
-                    </option>
-
-                    <option value="Motor">
-                        Motor
-                    </option>
-
-                    <option value="Turbina">
-                        Turbina
-                    </option>
-
-                    <option value="Cabezal">
-                        Cabezal
-                    </option>
-
-                    <option value="Rulemán">
-                        Rulemán
-                    </option>
-
-                    <option value="Estopada">
-                        Estopada
-                    </option>
-
-                    <option value="Pintado">
-                        Pintado
-                    </option>
-
-                    <option value="Ruedas">
-                        Ruedas
-                    </option>
-
+                <!-- Componente 1 -->
+                <label for="componente1"><b>⚙️ Componente roto 1</b></label>
+                <select id="componente1" name="componente1">
+                    <option value="">Sin seleccionar</option>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
                 </select>
 
-                <!-- Componente roto 2 -->
-
-                <label>
-                    <b>⚙️ Componente roto 2</b>
-                </label>
-
-                <select name="componente2">
-
-                    <option value="">
-                        Sin seleccionar
-                    </option>
-
-                    <option value="Comando eléctrico">
-                        Comando eléctrico
-                    </option>
-
-                    <option value="Cable y enchufe">
-                        Cable y enchufe
-                    </option>
-
-                    <option value="Motor">
-                        Motor
-                    </option>
-
-                    <option value="Turbina">
-                        Turbina
-                    </option>
-
-                    <option value="Cabezal">
-                        Cabezal
-                    </option>
-
-                    <option value="Rulemán">
-                        Rulemán
-                    </option>
-
-                    <option value="Estopada">
-                        Estopada
-                    </option>
-
-                    <option value="Pintado">
-                        Pintado
-                    </option>
-
-                    <option value="Ruedas">
-                        Ruedas
-                    </option>
-
+                <!-- Componente 2 -->
+                <label for="componente2"><b>⚙️ Componente roto 2</b></label>
+                <select id="componente2" name="componente2">
+                    <option value="">Sin seleccionar</option>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
                 </select>
 
-                <!-- Componente roto 3 -->
-
-                <label>
-                    <b>⚙️ Componente roto 3</b>
-                </label>
-
-                <select name="componente3">
-
-                    <option value="">
-                        Sin seleccionar
-                    </option>
-
-                    <option value="Comando eléctrico">
-                        Comando eléctrico
-                    </option>
-
-                    <option value="Cable y enchufe">
-                        Cable y enchufe
-                    </option>
-
-                    <option value="Motor">
-                        Motor
-                    </option>
-
-                    <option value="Turbina">
-                        Turbina
-                    </option>
-
-                    <option value="Cabezal">
-                        Cabezal
-                    </option>
-
-                    <option value="Rulemán">
-                        Rulemán
-                    </option>
-
-                    <option value="Estopada">
-                        Estopada
-                    </option>
-
-                    <option value="Pintado">
-                        Pintado
-                    </option>
-
-                    <option value="Ruedas">
-                        Ruedas
-                    </option>
-
+                <!-- Componente 3 -->
+                <label for="componente3"><b>⚙️ Componente roto 3</b></label>
+                <select id="componente3" name="componente3">
+                    <option value="">Sin seleccionar</option>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
                 </select>
 
-                <!-- Componente roto 4 -->
-
-                <label>
-                    <b>⚙️ Componente roto 4</b>
-                </label>
-
-                <select name="componente4">
-
-                    <option value="">
-                        Sin seleccionar
-                    </option>
-
-                    <option value="Comando eléctrico">
-                        Comando eléctrico
-                    </option>
-
-                    <option value="Cable y enchufe">
-                        Cable y enchufe
-                    </option>
-
-                    <option value="Motor">
-                        Motor
-                    </option>
-
-                    <option value="Turbina">
-                        Turbina
-                    </option>
-
-                    <option value="Cabezal">
-                        Cabezal
-                    </option>
-
-                    <option value="Rulemán">
-                        Rulemán
-                    </option>
-
-                    <option value="Estopada">
-                        Estopada
-                    </option>
-
-                    <option value="Pintado">
-                        Pintado
-                    </option>
-
-                    <option value="Ruedas">
-                        Ruedas
-                    </option>
-
+                <!-- Componente 4 -->
+                <label for="componente4"><b>⚙️ Componente roto 4</b></label>
+                <select id="componente4" name="componente4">
+                    <option value="">Sin seleccionar</option>
+                    <option value="Comando eléctrico">Comando eléctrico</option>
+                    <option value="Cable y enchufe">Cable y enchufe</option>
+                    <option value="Motor">Motor</option>
+                    <option value="Turbina">Turbina</option>
+                    <option value="Cabezal">Cabezal</option>
+                    <option value="Rulemán">Rulemán</option>
+                    <option value="Estopada">Estopada</option>
+                    <option value="Pintado">Pintado</option>
+                    <option value="Ruedas">Ruedas</option>
                 </select>
 
-                <label>
-                    <b>👤 Responsable</b>
-                </label>
+                <label for="responsable"><b>👤 Responsable</b></label>
+                <!-- CORREGIDO: Se quitó un espacio extra al final que rompía el cierre del input -->
+                <input type="text" id="responsable" name="responsable" placeholder="Nombre del responsable">
 
-                <input
-                    type="text"
-                    name="responsable"
-                    placeholder="Nombre del responsable"
-                >
+                <label for="costo"><b>💰 Costo ($)</b></label>
+                <input type="number" id="costo" name="costo" min="0" step="0.01" placeholder="Ingrese el costo" required>
 
-                <label>
-                    <b>💰 Costo ($)</b>
-                </label>
+                <label for="observacion"><b>📝 Observaciones</b></label>
+                <textarea id="observacion" name="observacion" rows="5" placeholder="Detalle de la reparación realizada"></textarea>
 
-                <input
-                    type="number"
-                    name="costo"
-                    min="0"
-                    step="0.01"
-                    placeholder="Ingrese el costo"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="btn-enviar"
-                >
-                    Guardar Registro
-                </button>
-
+                <button type="submit" class="btn-enviar">💾 Guardar Registro</button>
             </form>
-
         </div>
-
     </div>
-
 </body>
-
 </html>
